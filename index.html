@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rung · vocabulary demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,750&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F2F4F9; --surface:#FFFFFF; --ink:#182033; --muted:#5E6780; --line:#DCE1EC;
+  --blue:#3452C7; --blue-soft:#E4E9FA; --gold:#B8820A; --gold-soft:#FBF1D8;
+  --green:#1F7F54; --green-soft:#DDF2E7; --red:#C23535; --red-soft:#FBE3E3;
+  --sans:"Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1422; --surface:#182036; --ink:#E8ECF5; --muted:#9AA4BD; --line:#2A3350;
+    --blue:#8EA6FF; --blue-soft:#232E57; --gold:#F0C04A; --gold-soft:#3A301A;
+    --green:#5CCB93; --green-soft:#173A2A; --red:#F07A7A; --red-soft:#432222;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1422; --surface:#182036; --ink:#E8ECF5; --muted:#9AA4BD; --line:#2A3350;
+  --blue:#8EA6FF; --blue-soft:#232E57; --gold:#F0C04A; --gold-soft:#3A301A;
+  --green:#5CCB93; --green-soft:#173A2A; --red:#F07A7A; --red-soft:#432222;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-tap-highlight-color:transparent}
+.app{max-width:560px;margin:0 auto;padding:14px 16px 48px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+h1,h2,h3{margin:0;line-height:1.15}
+h1{font-size:2rem;font-weight:750;letter-spacing:-.02em}
+h2{font-size:1.25rem;font-weight:700}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;min-height:40px}
+.brand{font-weight:750;font-size:1.3rem;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.brand svg{width:22px;height:22px}
+.link{background:none;border:0;color:var(--blue);font-weight:600;padding:8px 4px}
+.back{background:none;border:0;color:var(--muted);font-weight:600;padding:8px 0;display:flex;gap:6px;align-items:center}
+
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:14px 18px;font-weight:700;font-size:1.02rem;background:var(--blue);color:#fff;text-align:center}
+:root[data-theme="dark"] .btn,.btn{}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#0F1422}}
+:root[data-theme="dark"] .btn{color:#0F1422}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.stack>*+*{margin-top:12px}
+
+.days{display:flex;gap:6px;overflow-x:auto;padding:4px 0 2px;margin:16px 0 18px}
+.day{flex:0 0 auto;min-width:48px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 10px;text-align:center;font-weight:600;font-size:.85rem;line-height:1.2}
+.day b{display:block;font-size:1.05rem}
+.day[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.day .dots{display:flex;gap:3px;justify-content:center;margin-top:4px}
+.day .dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.day .dots i.on{background:var(--green)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.session{list-style:none;margin:0 0 16px;padding:0}
+.session li{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+.session .num{width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:700;flex:0 0 auto}
+.session .done .num{background:var(--green-soft);color:var(--green)}
+.session .info{flex:1;min-width:0}
+.session .info b{display:block;font-size:1.05rem}
+.session .info span{font-size:.85rem;color:var(--muted)}
+.session button{border:1.5px solid var(--line);background:transparent;border-radius:10px;padding:8px 12px;font-weight:600;font-size:.9rem}
+.foot{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;margin-top:28px}
+
+/* The Case */
+.casefile{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 18px 18px;text-align:center;position:relative}
+.casefile .tag{font-size:.8rem;color:var(--muted);font-weight:600}
+.word{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,11vw,3.4rem);line-height:1.05;margin:6px 0 4px;letter-spacing:-.01em}
+.pron{color:var(--muted);font-size:.95rem}
+.evidence{list-style:none;padding:0;margin:14px 0 0}
+.evidence li{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.evidence li small{display:block;font-size:.76rem;font-weight:700;color:var(--blue);margin-bottom:2px}
+.evidence li p{font-family:var(--serif);font-size:1.08rem;line-height:1.45}
+.evidence li.fresh{animation:pop .35s ease-out}
+@keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.suspects{display:grid;gap:8px;margin:14px 0}
+.suspect{border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:13px 14px;text-align:left;font-size:1rem;line-height:1.35}
+.suspect:disabled{opacity:.45;text-decoration:line-through;cursor:default}
+.suspect.right{border-color:var(--green);background:var(--green-soft);opacity:1;text-decoration:none}
+.meter{display:flex;gap:6px;justify-content:center;margin-top:12px}
+.meter i{width:26px;height:6px;border-radius:3px;background:var(--line)}
+.meter i.on{background:var(--blue)}
+.verdict{font-size:1.6rem;font-weight:750;text-align:center;margin:6px 0 2px}
+.reveal{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0}
+.reveal .def{font-family:var(--serif);font-size:1.2rem;line-height:1.45}
+.reveal h3{font-size:.85rem;color:var(--muted);margin:14px 0 4px;font-weight:700}
+.reveal p.body{font-family:var(--serif);font-size:1.02rem;line-height:1.55}
+
+/* Codewords */
+.status{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:600}
+.lives{letter-spacing:3px;color:var(--red)}
+.signal{background:var(--ink);color:var(--bg);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.signal small{display:block;font-size:.78rem;opacity:.75;font-weight:600}
+.signal b{font-size:1.15rem;font-weight:700}
+.signal .count{float:right;background:var(--bg);color:var(--ink);border-radius:999px;padding:2px 10px;font-weight:750;margin-left:10px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:16px 4px;font-family:var(--serif);font-size:clamp(.95rem,4vw,1.1rem);text-align:center;min-height:56px;overflow-wrap:anywhere}
+.tile.hit{background:var(--green);border-color:var(--green);color:var(--surface)}
+.tile.trap{background:var(--red);border-color:var(--red);color:var(--surface)}
+.tile.shown{background:var(--green-soft);border-color:var(--green);border-style:dashed}
+.tile.used{opacity:.4}
+.tile.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.tools{display:flex;gap:10px;margin-top:12px;align-items:center}
+.toggle{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.9rem}
+.toggle[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.peekbox{background:var(--gold-soft);border-radius:12px;padding:12px 14px;margin-top:10px;font-family:var(--serif);font-size:1.02rem}
+.debrief{margin-top:12px}
+.note{border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line)}
+.note b{font-family:var(--serif);font-size:1.08rem}
+.note.trapnote{border-color:var(--red);background:var(--red-soft)}
+.note p{font-size:.95rem}
+.toast{text-align:center;font-weight:600;min-height:1.5em;margin:8px 0}
+
+/* Crossword */
+.cw-wrap{display:flex;justify-content:center;margin:4px 0 10px}
+.cw{display:grid;gap:2px;width:100%}
+.cell{position:relative;aspect-ratio:1;border-radius:4px;background:transparent}
+.cell.l{background:var(--surface);border:1.5px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:clamp(.8rem,4.2vw,1.25rem);text-transform:uppercase;padding:0}
+.cell.l .n{position:absolute;top:1px;left:3px;font-size:.55rem;font-weight:600;color:var(--muted)}
+.cell.inword{background:var(--blue-soft)}
+.cell.sel{border-color:var(--blue);background:var(--blue-soft);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.cell.lock{color:var(--green)}
+.cell.rev{color:var(--gold)}
+.cell.wrong{color:var(--red);background:var(--red-soft)}
+.cell.target{}
+.cluebar{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px}
+.cluebar .arrow{border:0;background:var(--blue-soft);color:var(--blue);border-radius:10px;width:36px;height:44px;font-weight:700;flex:0 0 auto}
+.cluebar .clue{flex:1;font-family:var(--serif);font-size:1.02rem;line-height:1.35;padding:0 4px}
+.cluebar .clue small{display:block;font-family:var(--sans);font-size:.75rem;color:var(--muted);font-weight:600}
+.helpers{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.helpers button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:600}
+.rootclue{background:var(--gold-soft);border-radius:10px;padding:8px 12px;font-size:.92rem;margin-bottom:8px}
+.kb{display:grid;gap:6px;margin-top:10px;user-select:none}
+.kb div{display:flex;gap:4px;justify-content:center}
+.kb button{flex:1;max-width:40px;height:48px;border:0;border-radius:8px;background:var(--surface);box-shadow:0 1px 0 var(--line);font-weight:700;font-size:1rem;padding:0}
+.kb button.wide{max-width:64px;flex:1.5}
+
+/* Ladder */
+.lad{list-style:none;padding:0;margin:0}
+.lad li{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:8px}
+.lad button.w{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;padding:12px 14px;text-align:left}
+.lad .wname{font-family:var(--serif);font-size:1.12rem;flex:1}
+.bars{display:flex;gap:3px}
+.bars i{width:16px;height:8px;border-radius:2px;background:var(--line)}
+.bars i.on{background:var(--blue)}
+.bars i.future{background:transparent;border:1px dashed var(--line)}
+.lad .detail{padding:0 14px 12px;font-family:var(--serif);font-size:.98rem;color:var(--muted)}
+.rungkey{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.8rem;color:var(--muted);margin:10px 0 14px}
+
+.moves{list-style:none;padding:0;margin:12px 0}
+.moves li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);margin-bottom:6px}
+.moves .mw{font-family:var(--serif);font-size:1.08rem;flex:1}
+.moves .up{color:var(--green);font-weight:700}
+.moves .down{color:var(--red);font-weight:700}
+.moves .held{color:var(--muted);font-weight:600}
+
+.fb label{display:block;font-weight:600;margin:16px 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.9rem}
+.chip[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+textarea{width:100%;min-height:80px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;padding:10px 12px;resize:vertical}
+.copied{background:var(--green-soft);color:var(--green);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:600}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="app" id="app" aria-live="polite"></main>
+
+<script>
+/* ============ CONTENT ============ */
+const WORDS={
+ sanguine:{pos:"adjective",def:"Calmly optimistic, especially when a situation looks difficult.",sent:"Despite three failed launches, the manager remained sanguine about Friday's release.",root:"Contains sangu-, from the Latin for blood."},
+ laconic:{pos:"adjective",def:"Using very few words, often in a dry, understated way.",sent:"'Fine,' said the laconic rancher, and went back to work.",root:"Named for Laconia, home of the famously brief Spartans."},
+ obsequious:{pos:"adjective",def:"So eager to please or obey that it becomes uncomfortable to watch.",sent:"The obsequious assistant laughed a little too loudly at every one of the CEO's jokes.",root:"Contains sequ-, Latin for follow (as in sequence)."},
+ equivocate:{pos:"verb",def:"To speak ambiguously on purpose, so you can't be pinned down.",sent:"Asked a direct question, the senator began to equivocate.",root:"equi (equal) + voc (voice): two meanings with equal voice."},
+ recalcitrant:{pos:"adjective",def:"Stubbornly refusing to cooperate or be controlled.",sent:"Even after three warnings, the recalcitrant students kept their phones out.",root:"From Latin for kicking back with the heel, like a mule."},
+ perfunctory:{pos:"adjective",def:"Done only because it has to be, with little care or real interest.",sent:"She gave the report a perfunctory glance before signing it.",root:"per + fungi (Latin, to perform): getting it over with."},
+ insouciant:{pos:"adjective",def:"Relaxed and unbothered, especially when you might be expected to worry.",sent:"He strolled in forty minutes late with an insouciant wave.",root:"French: in- (not) + soucier (to worry)."},
+ parsimonious:{pos:"adjective",def:"Unwilling to spend money, to a fault.",sent:"The parsimonious landlord refused to fix the heating until December.",root:"From Latin parsimonia, sparingness."},
+ reticent:{pos:"adjective",def:"Reluctant to share your thoughts or feelings.",sent:"She was reticent about her past and changed the subject whenever it came up.",root:"From Latin reticere, to keep silent."},
+ complacent:{pos:"adjective",def:"Self-satisfied and unaware of possible danger.",sent:"After years of winning, the team grew complacent and stopped training hard.",root:"Contains plac-, from Latin placere, to please."},
+ sycophantic:{pos:"adjective",def:"Flattering powerful people to win their favor.",sent:"The minister was surrounded by sycophantic aides who praised every idea.",root:"From Greek sykophantes, originally an informer."},
+ ebullient:{pos:"adjective",def:"Bubbling over with cheerful energy.",sent:"The ebullient host greeted every guest with a hug and a joke.",root:"From Latin ebullire, to boil up."},
+ garrulous:{pos:"adjective",def:"Talking too much, especially about trivial things.",sent:"The garrulous passenger narrated his entire vacation during the flight.",root:"From Latin garrire, to chatter."},
+ mendacious:{pos:"adjective",def:"Habitually lying or untruthful.",sent:"The investigation exposed a mendacious campaign built on invented statistics.",root:"From Latin mendax, lying."},
+ capricious:{pos:"adjective",def:"Changing mood or behavior suddenly and without reason.",sent:"The capricious spring weather swung from sunshine to hail within an hour.",root:"From Italian capriccio, a sudden whim."},
+ intransigent:{pos:"adjective",def:"Refusing to change your position or compromise.",sent:"Talks collapsed because both sides remained intransigent on wages.",root:"in- (not) + transigere (to come to terms)."},
+ profligate:{pos:"adjective",def:"Recklessly wasteful, especially with money.",sent:"His profligate spending burned through the inheritance in two years.",root:"From Latin profligare, to ruin."},
+ circumspect:{pos:"adjective",def:"Careful to consider all the risks before acting.",sent:"After the market's sharp fall, investors grew circumspect.",root:"circum (around) + spect (look): looking all around."},
+ sardonic:{pos:"adjective",def:"Grimly mocking or cynical.",sent:"He greeted news of yet another meeting with a sardonic smile.",root:"From Greek sardonios, a bitter laugh."},
+ anodyne:{pos:"adjective",def:"Inoffensive to the point of being bland.",sent:"The press release was so anodyne that nobody bothered to report it.",root:"Greek an- (without) + odyne (pain): once meant a painkiller."}
+};
+const CASE_WORDS=["sanguine","laconic","obsequious","equivocate","recalcitrant","perfunctory","insouciant"];
+
+const CASES=[
+ {word:"sanguine",pron:"SANG-gwin",
+  ev:["Despite three failed launches, the manager remained sanguine about Friday's release.",
+      "Her sanguine forecast irritated colleagues who fully expected yet another delay.",
+      "Witness statement: a sanguine person is the opposite of a gloomy one.",
+      "Root: from the Latin for blood. Medieval doctors believed a blood-dominant temperament made people cheerful and confident."],
+  sus:["Hopeful and confident, especially when things look bad","Quietly resigned to a bad outcome","Openly anxious about what might happen","Indifferent to how things turn out"],
+  story:"Medieval medicine held that four 'humors' shaped your personality. Too much blood made you sanguine: cheerful, confident and red-cheeked. The theory is long gone, but the word kept its sunny meaning.",
+  sibs:"consanguinity (being related by blood), sanguinary (bloodthirsty)",
+  usage:"Sanguine is a steady confidence. It's calmer than ebullient, and unlike complacent it doesn't mean ignoring the risks."},
+ {word:"laconic",pron:"luh-KON-ik",
+  ev:["His reply to the three-page email was laconic: 'Fine.'",
+      "The laconic rancher answered every question in two words or fewer, then went back to work.",
+      "Witness statement: the opposite of garrulous, or just plain chatty.",
+      "Root: from Laconia, the region around ancient Sparta."],
+  sus:["Using very few words","Rude and dismissive","Tired and unenthusiastic","Vague and noncommittal"],
+  story:"When Philip of Macedon warned the Spartans, 'If I invade Laconia, I will raze your city,' they are said to have replied with a single word: 'If.' Spartan brevity became legendary, and their region lent its name to it.",
+  sibs:"laconism (a very brief saying)",
+  usage:"Laconic is about economy of words, not mood. Terse can sound curt, while laconic often sounds cool and dry."},
+ {word:"obsequious",pron:"ob-SEE-kwee-us",
+  ev:["The waiter's obsequious manner made the diners uncomfortable.",
+      "He laughed a little too loudly at every one of the CEO's jokes, obsequious to the point of embarrassment.",
+      "Witness statement: think of a sycophant. That's the flavor.",
+      "Root: from Latin obsequi, to comply or follow. The same root gives us sequence."],
+  sus:["Excessively eager to please or obey","Snobbish and condescending","Nervous and clumsy","Overly formal and cold"],
+  story:"In Latin, obsequium meant compliance, and it wasn't an insult. Over time English kept the idea of following someone's wishes but added the sense of overdoing it, until the word became purely critical.",
+  sibs:"obsequiousness; sequence and consequence share the root",
+  usage:"Polite is fine and deferential is respectful. Obsequious is too much, and it's always a criticism."},
+ {word:"equivocate",pron:"ih-KWIV-uh-kate",
+  ev:["When asked whether the budget would be cut, the minister began to equivocate.",
+      "Rather than say yes or no, she equivocated for ten minutes, leaving everyone unsure what she believed.",
+      "Witness statement: someone who equivocates is hedging, the opposite of being candid.",
+      "Root: Latin aequus (equal) + vox (voice). Two meanings speaking with equal voice."],
+  sus:["To use vague language to avoid committing","To lose one's temper","To stall by changing the subject","To apologize reluctantly"],
+  story:"An equivocal statement can be heard two ways, each with an 'equal voice.' To equivocate is to choose that kind of statement deliberately, so no one can hold you to either meaning.",
+  sibs:"equivocal, unequivocal; equal and vocal share its roots",
+  usage:"Its opposite shows up constantly in news: an 'unequivocal denial' leaves no room for doubt."},
+ {word:"recalcitrant",pron:"rih-KAL-sih-trunt",
+  ev:["The recalcitrant printer jammed again, as if it had opinions.",
+      "Even after three warnings, the recalcitrant students refused to hand over their phones.",
+      "Witness statement: the opposite of docile or compliant.",
+      "Root: from Latin recalcitrare, to kick back with the heels (calx means heel)."],
+  sus:["Stubbornly uncooperative, resisting control","Worn out and unreliable","Noisy and disruptive","Slow to understand"],
+  story:"Picture a mule that won't be led, kicking back with its heels at whoever is pulling. That image is literally inside the word, and it still fits anyone who digs in against authority.",
+  sibs:"recalcitrance; calcaneus (the heel bone) shares the root",
+  usage:"Recalcitrant usually describes resistance to control: recalcitrant teenagers, a recalcitrant regime. Intransigent is about refusing to compromise in a dispute."},
+ {word:"perfunctory",pron:"per-FUNK-tuh-ree",
+  ev:["She gave the report a perfunctory glance before signing it.",
+      "His apology was perfunctory, delivered without eye contact while he checked his phone.",
+      "Witness statement: the opposite of thorough, or heartfelt.",
+      "Root: from Latin perfungi, to get something done with."],
+  sus:["Done as a routine duty, with minimal care","Quick and efficient","Suspicious and wary","Formal and official"],
+  story:"Perfungi meant to perform something all the way through, to discharge it and be done. A perfunctory act is performed purely to be finished with it, which is exactly why it feels hollow.",
+  sibs:"function shares the root fungi, to perform",
+  usage:"Cursory means hasty. Perfunctory adds that the heart isn't in it, which is why a perfunctory thank-you can sting."},
+ {word:"insouciant",pron:"in-SOO-see-unt",
+  ev:["He strolled in forty minutes late with an insouciant wave.",
+      "Her insouciant attitude toward the looming deadline amazed her anxious teammates.",
+      "Witness statement: close in spirit to nonchalant, or carefree.",
+      "Root: French in- (not) + soucier (to worry). Literally, not worrying."],
+  sus:["Casually unconcerned, carefree","Deliberately rude","Cheerfully apologetic","Confident and commanding"],
+  story:"The French souci means worry or care, as in Frederick the Great's palace Sanssouci, 'without a care.' English borrowed insouciance first, then the adjective.",
+  sibs:"insouciance",
+  usage:"Insouciant can be admiring or disapproving depending on context. Complacent always carries a warning."}
+];
+
+const BOARDS=[
+ {tiles:["frugal","thrifty","parsimonious","terse","taciturn","reticent","sanguine","optimistic","complacent","prudent","verbose","morose"],
+  rounds:[{s:"Careful with money, in a good way",a:["frugal","thrifty"],t:"parsimonious"},
+          {s:"Says very little when speaking",a:["terse","taciturn"],t:"reticent"},
+          {s:"Stays hopeful when things look bad",a:["sanguine","optimistic"],t:"complacent"}],
+  notes:{frugal:"Careful with money in a sensible, approving way.",thrifty:"Good at making money go far. It's a compliment.",parsimonious:"Stingy to a fault. It is careful with money, but disapproving, so it fails the 'good way' test.",terse:"Brief to the point of sounding curt.",taciturn:"Habitually says very little.",reticent:"Holds back thoughts or feelings. That's reluctance to share, not a matter of using few words.",sanguine:"Calmly optimistic when things look difficult.",optimistic:"Hopeful about the future.",complacent:"Untroubled because you're ignoring danger. It's comfort without the hope.",prudent:"Wise and careful about the future in general.",verbose:"Uses more words than needed.",morose:"Sullen and gloomy."}},
+ {tiles:["garrulous","chatty","eloquent","sycophantic","fawning","deferential","ebullient","exuberant","sanguine","somber","curt","aloof"],
+  rounds:[{s:"Talks a lot, often about trivial things",a:["garrulous","chatty"],t:"eloquent"},
+          {s:"Flatters the powerful to win favor",a:["sycophantic","fawning"],t:"deferential"},
+          {s:"Bubbling over with enthusiasm",a:["ebullient","exuberant"],t:"sanguine"}],
+  notes:{garrulous:"Talks too much, especially about trivial things.",chatty:"Fond of casual, friendly talk.",eloquent:"Speaks fluently and persuasively. That's about skill, not quantity or triviality.",sycophantic:"Flatters powerful people to gain favor.",fawning:"Shows exaggerated flattery or affection.",deferential:"Respectfully yields to others. It's appropriate respect, not flattery for gain.",ebullient:"Overflowing with cheerful energy.",exuberant:"Full of lively enthusiasm.",sanguine:"Calmly optimistic. It's steady confidence, not bubbling energy.",somber:"Dark and serious in mood.",curt:"Rudely brief.",aloof:"Distant and uninvolved."}},
+ {tiles:["mendacious","dishonest","fallacious","capricious","fickle","versatile","laconic","terse","reserved","candid","steadfast","gregarious"],
+  rounds:[{s:"Given to telling lies",a:["mendacious","dishonest"],t:"fallacious"},
+          {s:"Changes mood or mind suddenly, for no reason",a:["capricious","fickle"],t:"versatile"},
+          {s:"Uses very few words",a:["laconic","terse"],t:"reserved"}],
+  notes:{mendacious:"Habitually lying.",dishonest:"Not truthful.",fallacious:"Based on a mistaken belief. It describes arguments that are wrong, not people who lie.",capricious:"Changes suddenly and without apparent reason.",fickle:"Changes loyalties or interests frequently.",versatile:"Adapts to many tasks. That's change as a skill, not a whim.",laconic:"Uses very few words, often dryly.",terse:"Brief to the point of curtness.",reserved:"Slow to reveal emotions. That's about feelings, not word count.",candid:"Frank and honest.",steadfast:"Loyal and unwavering.",gregarious:"Fond of company and sociable."}},
+ {tiles:["intransigent","unyielding","resolute","profligate","spendthrift","generous","obsequious","servile","dutiful","frugal","cautious","sincere"],
+  rounds:[{s:"Refuses to compromise",a:["intransigent","unyielding"],t:"resolute"},
+          {s:"Recklessly wasteful with money",a:["profligate","spendthrift"],t:"generous"},
+          {s:"Far too eager to obey or please",a:["obsequious","servile"],t:"dutiful"}],
+  notes:{intransigent:"Refuses to budge or compromise.",unyielding:"Won't give way under pressure.",resolute:"Determined in purpose. It's admirable resolve, not refusing to meet others halfway.",profligate:"Recklessly wasteful, especially with money.",spendthrift:"Spends money wastefully.",generous:"Gives freely to others. That's a virtue, not recklessness.",obsequious:"So eager to please it becomes uncomfortable.",servile:"Excessively willing to serve or obey.",dutiful:"Does what's expected out of responsibility. Proper, not excessive.",frugal:"Careful with money in a good way.",cautious:"Careful to avoid risks.",sincere:"Genuine and honest."}},
+ {tiles:["circumspect","cautious","timid","sardonic","wry","facetious","equivocate","hedge","demur","blunt","jovial","brash"],
+  rounds:[{s:"Weighs every risk before acting",a:["circumspect","cautious"],t:"timid"},
+          {s:"Mocking in a grim or cynical way",a:["sardonic","wry"],t:"facetious"},
+          {s:"Avoid giving a straight answer",a:["equivocate","hedge"],t:"demur"}],
+  notes:{circumspect:"Looks around at every risk before acting.",cautious:"Careful to avoid danger.",timid:"Lacking courage. That's caution driven by fear, not by careful thought.",sardonic:"Grimly mocking or cynical.",wry:"Dry and mocking in a subtle way.",facetious:"Jokes about serious matters. It's flippant, but not scornful.",equivocate:"Speak vaguely to avoid committing.",hedge:"Avoid a firm answer or commitment.",demur:"Raise an objection or hesitate. That's openly pushing back, not dodging.",blunt:"Direct to the point of rudeness.",jovial:"Cheerful and friendly.",brash:"Self-assertive in a rude way."}},
+ {tiles:["anodyne","insipid","tactful","recalcitrant","unruly","intransigent","profligate","extravagant","prosperous","docile","vivid","frugal"],
+  rounds:[{s:"Inoffensive to the point of being bland",a:["anodyne","insipid"],t:"tactful"},
+          {s:"Stubbornly resists authority or control",a:["recalcitrant","unruly"],t:"intransigent"},
+          {s:"Spends money freely and wastefully",a:["profligate","extravagant"],t:"prosperous"}],
+  notes:{anodyne:"So inoffensive that it's bland.",insipid:"Lacking flavor or interest.",tactful:"Skillfully avoids giving offense. That's a strength, not dullness.",recalcitrant:"Stubbornly resists authority or control.",unruly:"Disorderly and hard to control.",intransigent:"Refuses to compromise in a dispute. It's firmness on a position, not defiance of control.",profligate:"Spends money freely and wastefully.",extravagant:"Spends far more than necessary.",prosperous:"Wealthy and successful. It says nothing about how the money is spent.",docile:"Quiet and easy to control.",vivid:"Bright and intense.",frugal:"Careful with money in a good way."}},
+ {tiles:["perfunctory","cursory","efficient","capricious","erratic","spontaneous","sardonic","derisive","droll","meticulous","steady","earnest"],
+  rounds:[{s:"Done with minimal effort or care",a:["perfunctory","cursory"],t:"efficient"},
+          {s:"Changes unpredictably, on a whim",a:["capricious","erratic"],t:"spontaneous"},
+          {s:"Scornfully mocking",a:["sardonic","derisive"],t:"droll"}],
+  notes:{perfunctory:"Done with minimal effort, just to get it over with.",cursory:"Hasty and not thorough.",efficient:"Achieves results with little waste. Minimal effort, but still done well.",capricious:"Changes on a whim.",erratic:"Unpredictable and irregular.",spontaneous:"Acts on a sudden impulse. That's often a delight, not general unpredictability.",sardonic:"Scornfully mocking.",derisive:"Expresses contempt or ridicule.",droll:"Amusing in an odd, gentle way. Humor without scorn.",meticulous:"Extremely careful about details.",steady:"Firm and consistent.",earnest:"Sincere and serious."}}
+];
+
+const CROSS=[["reticent","complacent"],["garrulous","sanguine"],["laconic","capricious"],["obsequious","profligate"],["circumspect","equivocate"],["anodyne","recalcitrant"],["perfunctory","sardonic"]];
+
+const ANCHORS={CANDID:"Frank and honest",GENIAL:"Friendly and cheerful",SERENE:"Calm and peaceful",TIMID:"Easily frightened",EAGER:"Keen to do something",CURT:"Rudely brief",PRUDENT:"Wise about the future",NAIVE:"Lacking experience of the world",AMPLE:"More than enough",BRISK:"Quick and energetic",VAGUE:"Not clearly expressed",SOMBER:"Dark or gloomy in mood",RIGID:"Unable to bend",EARNEST:"Sincere and serious",LUCID:"Clearly expressed",CRUCIAL:"Extremely important",ASTUTE:"Sharp at judging situations",CONCISE:"Brief but complete",ROBUST:"Strong and sturdy",TACIT:"Understood without being said",OPAQUE:"Not see-through",SPARSE:"Thinly scattered",CASUAL:"Relaxed and informal",NOTION:"An idea or belief",RIVAL:"A competitor",PRIOR:"Coming before",DOCILE:"Easily managed",MUNDANE:"Ordinary and dull",AUSTERE:"Plain and severe",SUBTLE:"Not obvious",PLACID:"Calm and not easily upset",ARDENT:"Passionate",INEPT:"Lacking skill",SINCERE:"Genuine",TEPID:"Lukewarm",FRUGAL:"Careful with money",CYNIC:"One who expects the worst of people",STOIC:"Enduring hardship without complaint",SCANT:"Barely enough",DIRE:"Extremely serious",CRASS:"Lacking sensitivity",CANNY:"Shrewd, especially with money",IRONIC:"Meaning the opposite of what is said",SOCIAL:"Relating to society",CIVIL:"Polite, if not warm",SCORN:"Contempt",OPINE:"State one's view",RELIC:"An object from the past",ROUTINE:"A regular procedure",UNIQUE:"One of a kind",GRUFF:"Rough and abrupt",POLITE:"Well-mannered",ACCURATE:"Correct in every detail",CANDOR:"Open honesty",TRAIT:"A distinguishing quality",PANIC:"Sudden overwhelming fear",SPEND:"Pay out money"};
+
+/* ============ UTIL ============ */
+const KEY="rung-demo-v1";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffle(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const cap=w=>w.charAt(0).toUpperCase()+w.slice(1);
+const RUNGS=["Not met","Deduce","Discriminate","Recall","Wield","Survive"];
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+
+/* ============ STATE ============ */
+function fresh(){const r={};Object.keys(WORDS).forEach(w=>r[w]=CASE_WORDS.includes(w)?0:1);return{v:1,start:Date.now(),rungs:r,results:{},moves:[],fb:{}}}
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+if(!S||S.v!==1)S=fresh();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function today(){const days=Math.floor((Date.now()-S.start)/864e5);return Math.min(7,Math.max(1,days+1))}
+function res(day){return S.results[day]||(S.results[day]={})}
+
+let V={screen:"home",day:today(),flow:false,g:null};
+
+function applyMoves(day,game,outcomes,gameRung){
+  const firstPlay=!res(day)[game+"_counted"];
+  if(!firstPlay)return[];
+  res(day)[game+"_counted"]=true;
+  const out=[];
+  for(const o of outcomes){
+    const from=S.rungs[o.word]??0;let to=from;
+    if(o.result==="pass")to=Math.max(from,Math.min(gameRung,from+1));
+    else if(o.result==="fail")to=Math.max(1,from-1);
+    else if(o.result==="enter")to=Math.max(from,1);
+    S.rungs[o.word]=to;
+    const m={day,game,word:o.word,from,to,result:o.result};
+    S.moves.push(m);out.push(m);
+  }
+  save();return out;
+}
+
+/* ============ CROSSWORD GENERATOR ============ */
+const cwCache={};
+function genCross(day){
+  if(cwCache[day])return cwCache[day];
+  const targets=CROSS[day-1].map(w=>w.toUpperCase());
+  const r=rng(day*131+7);
+  const grid=new Map(),dirs=new Map(),entries=[];
+  const k=(a,b)=>a+","+b;
+  function fits(word,row,col,dir){
+    const dr=dir==="d"?1:0,dc=dir==="a"?1:0;let cross=0;
+    if(grid.has(k(row-dr,col-dc))||grid.has(k(row+dr*word.length,col+dc*word.length)))return -1;
+    for(let i=0;i<word.length;i++){
+      const rr=row+dr*i,cc=col+dc*i,key=k(rr,cc),ex=grid.get(key);
+      if(ex){if(ex!==word[i]||dirs.get(key).has(dir))return -1;cross++}
+      else{
+        if(dir==="a"&&(grid.has(k(rr-1,cc))||grid.has(k(rr+1,cc))))return -1;
+        if(dir==="d"&&(grid.has(k(rr,cc-1))||grid.has(k(rr,cc+1))))return -1;
+      }
+    }
+    return cross;
+  }
+  function bounds(extra){
+    let r0=1e9,r1=-1e9,c0=1e9,c1=-1e9;
+    const pts=[...grid.keys()].map(s=>s.split(",").map(Number));
+    if(extra)pts.push(...extra);
+    for(const[a,b]of pts){r0=Math.min(r0,a);r1=Math.max(r1,a);c0=Math.min(c0,b);c1=Math.max(c1,b)}
+    return{r0,r1,c0,c1,h:r1-r0+1,w:c1-c0+1};
+  }
+  function place(e){
+    const dr=e.dir==="d"?1:0,dc=e.dir==="a"?1:0;e.cells=[];
+    for(let i=0;i<e.word.length;i++){const key=k(e.r+dr*i,e.c+dc*i);grid.set(key,e.word[i]);if(!dirs.has(key))dirs.set(key,new Set());dirs.get(key).add(e.dir);e.cells.push(key)}
+    entries.push(e);
+  }
+  const crossings=e=>e.cells.filter(c=>dirs.get(c).size>1).length;
+  const [t1,t2]=targets;
+  place({word:t1,r:0,c:0,dir:"a",target:true});
+  const opts=[];
+  for(let i=0;i<t1.length;i++)for(let j=0;j<t2.length;j++)if(t1[i]===t2[j])opts.push({r:-j,c:i,score:Math.abs(i-t1.length/2)+Math.abs(j-t2.length/2)});
+  opts.sort((a,b)=>a.score-b.score);
+  for(const o of opts){if(fits(t2,o.r,o.c,"d")>=1){place({word:t2,r:o.r,c:o.c,dir:"d",target:true});break}}
+  const pool=shuffle(Object.keys(ANCHORS),r);
+  const MAX=13;
+  for(let pass=0;pass<2;pass++){
+    for(const w of pool){
+      if(entries.length>=7)break;
+      if(entries.some(e=>e.word===w))continue;
+      const tEntries=entries.filter(e=>e.target);
+      if(tEntries.every(e=>crossings(e)>=3))break;
+      let best=null;
+      for(const te of tEntries){
+        if(crossings(te)>=3)continue;
+        const tdir=te.dir==="a"?"d":"a";
+        te.cells.forEach((cell,ci)=>{
+          if(dirs.get(cell).size>1)return;
+          const[cr,cc]=cell.split(",").map(Number);
+          for(let j=0;j<w.length;j++){
+            if(w[j]!==grid.get(cell))continue;
+            const row=tdir==="d"?cr-j:cr,col=tdir==="a"?cc-j:cc;
+            const x=fits(w,row,col,tdir);if(x<1)continue;
+            const ends=[[row,col],[row+(tdir==="d"?w.length-1:0),col+(tdir==="a"?w.length-1:0)]];
+            const b=bounds(ends);if(b.h>MAX||b.w>MAX)continue;
+            const nearEdge=Math.min(ci,te.cells.length-1-ci);
+            const sc=x*10+(te.cells.length-crossings(te))+ (nearEdge>0?2:0)+r();
+            if(!best||sc>best.sc)best={sc,e:{word:w,r:row,c:col,dir:tdir,target:false}};
+          }
+        });
+      }
+      if(best)place(best.e);
+    }
+  }
+  const b=bounds();
+  const cells={};
+  for(const[key,ch]of grid){const[a,c]=key.split(",").map(Number);cells[(a-b.r0)+","+(c-b.c0)]=ch}
+  entries.forEach(e=>{e.r-=b.r0;e.c-=b.c0;const dr=e.dir==="d"?1:0,dc=e.dir==="a"?1:0;e.cells=[];for(let i=0;i<e.word.length;i++)e.cells.push((e.r+dr*i)+","+(e.c+dc*i))});
+  const starts=[...new Set(entries.map(e=>e.r+","+e.c))].sort((x,y)=>{const[a1,b1]=x.split(",").map(Number),[a2,b2]=y.split(",").map(Number);return a1-a2||b1-b2});
+  const nums={};starts.forEach((s,i)=>nums[s]=i+1);
+  entries.forEach((e,i)=>{
+    e.num=nums[e.r+","+e.c];e.id=i;
+    const lw=e.word.toLowerCase();
+    if(e.target){
+      const idx=CROSS[day-1].indexOf(lw);
+      if(idx===0)e.clue=WORDS[lw].def+" ("+e.word.length+")";
+      else e.clue=WORDS[lw].sent.replace(new RegExp(lw,"i"),"___")+" ("+e.word.length+")";
+    }else e.clue=ANCHORS[e.word]+" ("+e.word.length+")";
+  });
+  entries.sort((a,b)=>(a.dir===b.dir?a.num-b.num:(a.dir==="a"?-1:1)));
+  const out={h:b.h,w:b.w,cells,entries,nums};
+  cwCache[day]=out;return out;
+}
+
+/* ============ RENDER HELPERS ============ */
+const logo=`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="2.4" height="20" rx="1.2" fill="currentColor"/><rect x="16.6" y="2" width="2.4" height="20" rx="1.2" fill="currentColor"/><rect x="6" y="5" width="12" height="2" rx="1" fill="var(--blue)"/><rect x="6" y="10" width="12" height="2" rx="1" fill="var(--blue)"/><rect x="6" y="15" width="12" height="2" rx="1" fill="var(--gold)"/></svg>`;
+function topbar(back){
+  return back?`<div class="top"><button class="back" data-a="home">‹ Today</button><button class="link" data-a="ladder">Your ladder</button></div>`
+             :`<div class="top"><div class="brand">${logo}Rung</div><button class="link" data-a="ladder">Your ladder</button></div>`;
+}
+const GAMES=[{id:"case",name:"The Case",rung:1,time:"1–2 min",what:"Work out a mystery word"},
+             {id:"codewords",name:"Codewords",rung:2,time:"About 2 min",what:"Find the right words, dodge the trap"},
+             {id:"crossword",name:"Mini Crossword",rung:3,time:"2–3 min",what:"Recall words with help from old ones"}];
+
+function dayTargets(day){
+  const set=new Set([CASES[day-1].word]);
+  BOARDS[day-1].rounds.forEach(rd=>[...rd.a,rd.t].forEach(w=>{if(WORDS[w])set.add(w)}));
+  CROSS[day-1].forEach(w=>set.add(w));
+  return[...set];
+}
+
+/* ============ SCREENS ============ */
+function renderHome(){
+  const d=V.day,t=today(),R=res(d);
+  const doneCount=GAMES.filter(g=>R[g.id]).length;
+  let h=topbar(false);
+  h+=`<p class="muted small">${d===t?"Today":"Viewing"} · Day ${d} of 7</p><h1>${doneCount===3?"Climb complete":"Today's climb"}</h1>
+  <p class="muted" style="margin-top:6px">About 5 minutes. ${dayTargets(d).length} words are ready to climb.</p>`;
+  h+=`<div class="days">`;
+  for(let i=1;i<=7;i++){const r=S.results[i]||{};const dots=GAMES.map(g=>`<i class="${r[g.id]?"on":""}"></i>`).join("");
+    h+=`<button class="day" data-a="day" data-d="${i}" aria-pressed="${i===d}"><span>${i===t?"Today":"Day"}</span><b>${i}</b><span class="dots">${dots}</span></button>`}
+  h+=`</div><ol class="session">`;
+  GAMES.forEach((g,i)=>{const r=R[g.id];
+    h+=`<li class="${r?"done":""}"><span class="num">${r?"✓":i+1}</span><div class="info"><b>${g.name}</b><span>${r?esc(r.summary):g.what+" · "+g.time}</span></div><button data-a="play" data-g="${g.id}">${r?"Replay":"Play"}</button></li>`});
+  h+=`</ol>`;
+  if(doneCount<3)h+=`<button class="btn" data-a="start">${doneCount?"Continue today's session":"Start today's session"}</button>`;
+  else h+=`<div class="stack"><button class="btn" data-a="recap">See today's climb</button>${d<7?`<button class="btn ghost" data-a="day" data-d="${d+1}">Want more? Play Day ${d+1}</button>`:""}</div>`;
+  h+=`<div class="foot"><button class="link" data-a="about">How it works</button><button class="link" data-a="feedback">Give feedback</button><button class="link" data-a="reset" id="resetBtn">Reset demo</button></div>`;
+  return h;
+}
+
+/* --- The Case --- */
+function startCase(){
+  const c=CASES[V.day-1],r=rng(V.day*17+3);
+  const order=shuffle([0,1,2,3],r);
+  V.g={type:"case",ev:1,elim:[],order,done:false,result:null,fresh:false};
+}
+const CASE_LABELS=["","Sharp","Solid","Close call","Cracked it"];
+function renderCase(){
+  const c=CASES[V.day-1],g=V.g;
+  let h=topbar(true);
+  h+=`<div class="casefile"><span class="tag">The Case #${V.day}</span><div class="word">${c.word}</div><div class="pron">${c.pron} · ${WORDS[c.word].pos}</div>
+  <div class="meter" aria-label="Evidence used: ${g.ev} of 4">${[1,2,3,4].map(i=>`<i class="${i<=g.ev?"on":""}"></i>`).join("")}</div></div>`;
+  h+=`<ol class="evidence">`;
+  for(let i=0;i<g.ev;i++)h+=`<li class="${g.fresh&&i===g.ev-1?"fresh":""}"><small>Evidence ${i+1}</small><p>${esc(c.ev[i])}</p></li>`;
+  h+=`</ol>`;
+  if(!g.done){
+    h+=`<p class="muted small" style="margin-top:12px">Accuse the meaning you think fits. A wrong accusation reveals the next piece of evidence.</p><div class="suspects">`;
+    g.order.forEach(i=>{h+=`<button class="suspect" data-a="accuse" data-i="${i}" ${g.elim.includes(i)?"disabled":""}>${esc(c.sus[i])}</button>`});
+    h+=`</div><button class="btn ghost" data-a="evidence" ${g.ev>=4?"disabled":""}>${g.ev>=4?"No more evidence":"Request evidence"}</button>`;
+  }else{
+    h+=`<div class="suspects">`;
+    g.order.forEach(i=>{h+=`<button class="suspect ${i===0?"right":""}" disabled>${esc(c.sus[i])}</button>`});
+    h+=`</div><p class="verdict">${g.result==="cold"?"Cold case":CASE_LABELS[g.ev]}</p>
+    <p class="muted" style="text-align:center">${g.result==="cold"?"This one got away, but now you know it.":`Case closed with ${g.ev} piece${g.ev>1?"s":""} of evidence.`}</p>
+    <div class="reveal"><div class="def">${esc(WORDS[c.word].def)}</div>
+      <h3>The story</h3><p class="body">${esc(c.story)}</p>
+      <h3>Relatives</h3><p class="body">${esc(c.sibs)}</p>
+      <h3>Use it well</h3><p class="body">${esc(c.usage)}</p></div>
+    <div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("case")}</div>`;
+  }
+  g.fresh=false;
+  return h;
+}
+function caseShare(){const g=V.g;const n=g.ev;let s=g.result==="cold"?"🔍🔍🔍❌":"🔍".repeat(n-1)+"✅"+"⬜".repeat(4-n);return`Rung · The Case #${V.day}\n${s}\n${g.result==="cold"?"Cold case":CASE_LABELS[n]}`}
+function finishCase(result){
+  const g=V.g;g.done=true;g.result=result;
+  const label=result==="cold"?"Cold case":CASE_LABELS[g.ev];
+  const w=CASES[V.day-1].word;
+  const moves=applyMoves(V.day,"case",[{word:w,result:"enter"}],1);
+  if(!res(V.day).case||moves.length)res(V.day).case={summary:`${label} · ${w}`};
+  save();
+}
+
+/* --- Codewords --- */
+function startCodewords(){
+  const b=BOARDS[V.day-1];
+  V.g={type:"codewords",tiles:shuffle(b.tiles,rng(V.day*29+5)),round:0,lives:3,state:{},roundLives:0,phase:"play",results:[],peek:false,peekText:"",peeked:new Set(),found:[],over:false,shake:null};
+}
+function renderCodewords(){
+  const b=BOARDS[V.day-1],g=V.g,rd=b.rounds[Math.min(g.round,2)];
+  let h=topbar(true);
+  h+=`<div class="status"><span>Codewords · Signal ${Math.min(g.round+1,3)} of 3</span><span class="lives" aria-label="${g.lives} lives">${"♥".repeat(g.lives)}${"♡".repeat(3-g.lives)}</span></div>`;
+  if(!g.over)h+=`<div class="signal"><span class="count">${rd.a.length}</span><small>Signal</small><b>${esc(rd.s)}</b></div>`;
+  h+=`<div class="tiles">`;
+  g.tiles.forEach(t=>{const st=g.state[t]||"";
+    const cls=st==="hit"?"hit":st==="trap"?"trap":st==="shown"?"shown":st==="used"?"used":"";
+    h+=`<button class="tile ${cls} ${g.shake===t?"shake":""}" data-a="tile" data-t="${t}" ${(st||g.phase!=="play")&&!g.peek?"disabled":""}>${t}</button>`});
+  h+=`</div>`;
+  g.shake=null;
+  if(g.phase==="play"){
+    h+=`<div class="tools"><button class="toggle" data-a="peek" aria-pressed="${g.peek}">${g.peek?"Peek on: tap a word":"Peek at a word"}</button><span class="muted small">Peeking is free, but a peeked word can't climb today.</span></div>`;
+    if(g.peekText)h+=`<div class="peekbox">${g.peekText}</div>`;
+    h+=`<div class="toast" id="cwToast"></div>`;
+  }else{
+    h+=`<div class="debrief">`;
+    const rr=g.results[g.results.length-1];
+    h+=`<p class="toast">${rr==="clean"?"Clean sweep.":rr==="wobble"?"Got there, with a stumble.":rr==="trap"?"The double agent got you.":"Out of lives."}</p>`;
+    [...rd.a,rd.t].forEach(w=>{h+=`<div class="note ${w===rd.t?"trapnote":""}"><b>${w}</b>${w===rd.t?" · the trap":""}<p>${esc(b.notes[w])}</p></div>`});
+    if(g.over){
+      h+=`<div class="stack" style="margin-top:14px"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("codewords")}</div>`;
+    }else h+=`<button class="btn" data-a="nextround">Next signal</button>`;
+    h+=`</div>`;
+  }
+  return h;
+}
+function tapTile(t){
+  const b=BOARDS[V.day-1],g=V.g,rd=b.rounds[g.round];
+  if(g.peek){
+    g.peek=false;g.peeked.add(t);
+    g.peekText=`<b>${t}</b>: ${esc(WORDS[t]?WORDS[t].sent:b.notes[t])}`;return;
+  }
+  g.peekText="";
+  if(g.state[t])return;
+  if(rd.a.includes(t)){
+    g.state[t]="hit";g.found.push(t);
+    if(rd.a.every(w=>g.state[w]==="hit"))endRound(g.roundLives?"wobble":"clean");
+  }else if(t===rd.t){
+    g.state[t]="trap";rd.a.forEach(w=>{if(!g.state[w])g.state[w]="shown"});endRound("trap");
+  }else{
+    g.lives--;g.roundLives++;g.shake=t;
+    if(g.lives<=0){rd.a.forEach(w=>{if(!g.state[w])g.state[w]="shown"});endRound("lost")}
+    else setTimeout(()=>{const el=$("#cwToast");if(el)el.textContent="Not that one. It doesn't fit this signal."},10);
+  }
+}
+function endRound(r){
+  const g=V.g;g.results.push(r);g.phase="debrief";
+  if(r==="lost"||g.round>=2){
+    if(r==="lost")while(g.results.length<3)g.results.push("lost");
+    g.over=true;finishCodewords();
+  }
+}
+function nextRound(){
+  const b=BOARDS[V.day-1],g=V.g,rd=b.rounds[g.round];
+  [...rd.a,rd.t].forEach(w=>{if(g.state[w]==="shown"||g.state[w]==="hit"||g.state[w]==="trap")g.state[w]="used";else if(!g.state[w])g.state[w]="used"});
+  g.round++;g.phase="play";g.roundLives=0;
+}
+function finishCodewords(){
+  const b=BOARDS[V.day-1],g=V.g,outs=[];
+  b.rounds.forEach((rd,i)=>{
+    const rr=g.results[i];
+    rd.a.forEach(w=>{if(!WORDS[w])return;if(g.peeked.has(w))outs.push({word:w,result:"none"});else outs.push({word:w,result:g.found.includes(w)?"pass":"fail"})});
+    if(WORDS[rd.t]){const w=rd.t;if(g.peeked.has(w))outs.push({word:w,result:"none"});else outs.push({word:w,result:(rr==="clean"||rr==="wobble")?"pass":"fail"})}
+  });
+  applyMoves(V.day,"codewords",outs,2);
+  const clean=g.results.filter(x=>x==="clean").length;
+  res(V.day).codewords={summary:`${clean} of 3 signals clean · ${g.lives} ${g.lives===1?"life":"lives"} left`,share:g.results.slice()};
+  save();
+}
+function cwShare(){const m={clean:"🟩",wobble:"🟨",trap:"🟥",lost:"⬛"};return`Rung · Codewords, Day ${V.day}\n${V.g.results.map(x=>m[x]).join("")}  ${"♥".repeat(V.g.lives)}`}
+
+/* --- Mini Crossword --- */
+function startCrossword(){
+  const P=genCross(V.day);
+  const stats={};P.entries.filter(e=>e.target).forEach(e=>stats[e.word]={reveals:0,fails:0,revealed:false,root:false});
+  const first=P.entries[0];
+  V.g={type:"crossword",P,letters:{},locked:{},revealed:{},wrong:{},sel:first.cells[0],dir:first.dir,entry:first.id,stats,done:false,msg:"",start:Date.now(),showRoot:null};
+}
+function entryAt(cell,dir){return V.g.P.entries.find(e=>e.dir===dir&&e.cells.includes(cell))}
+function curEntry(){return V.g.P.entries.find(e=>e.id===V.g.entry)}
+function renderCrossword(){
+  const g=V.g,P=g.P,e=curEntry();
+  let h=topbar(true);
+  h+=`<div class="status"><span>Mini Crossword · Day ${V.day}</span><span class="muted small">${P.entries.length} words</span></div>`;
+  const size=Math.min(44*P.w,520);
+  h+=`<div class="cw-wrap"><div class="cw" style="grid-template-columns:repeat(${P.w},1fr);max-width:${size}px">`;
+  for(let r=0;r<P.h;r++)for(let c=0;c<P.w;c++){
+    const key=r+","+c;
+    if(!P.cells[key]){h+=`<div class="cell"></div>`;continue}
+    const cls=["cell","l"];
+    if(e.cells.includes(key))cls.push("inword");
+    if(key===g.sel)cls.push("sel");
+    if(g.revealed[key])cls.push("rev");else if(g.locked[key])cls.push("lock");
+    if(g.wrong[key])cls.push("wrong");
+    const n=P.nums[key];
+    h+=`<button class="${cls.join(" ")}" data-a="cell" data-k="${key}" aria-label="Row ${r+1} column ${c+1}">${n?`<span class="n">${n}</span>`:""}${g.letters[key]||""}</button>`;
+  }
+  h+=`</div></div>`;
+  if(!g.done){
+    h+=`<div class="cluebar"><button class="arrow" data-a="prevclue" aria-label="Previous clue">‹</button><div class="clue"><small>${e.num} ${e.dir==="a"?"Across":"Down"}</small>${esc(e.clue)}</div><button class="arrow" data-a="nextclue" aria-label="Next clue">›</button></div>`;
+    if(g.showRoot===e.id)h+=`<div class="rootclue" style="margin-top:8px">Root clue: ${esc(WORDS[e.word.toLowerCase()].root)}</div>`;
+    h+=`<div class="helpers">${e.target?`<button data-a="root">Root clue</button>`:""}<button data-a="check">Check word</button><button data-a="revletter">Reveal letter</button><button data-a="revword">Reveal word</button></div>`;
+    h+=`<div class="toast" style="margin:2px 0">${esc(g.msg)}</div>`;
+    const rows=["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
+    h+=`<div class="kb">`+rows.map((row,i)=>`<div>${[...row].map(l=>`<button data-a="key" data-l="${l}">${l}</button>`).join("")}${i===2?`<button class="wide" data-a="back" aria-label="Delete">⌫</button>`:""}</div>`).join("")+`</div>`;
+    h+=`<button class="link" data-a="giveup" style="display:block;margin:14px auto 0">Reveal the whole puzzle</button>`;
+  }else{
+    const secs=Math.round((g.end-g.start)/1000),mm=Math.floor(secs/60),ss=String(secs%60).padStart(2,"0");
+    h+=`<p class="verdict">Solved</p><p class="muted" style="text-align:center">${mm}:${ss}</p><div class="reveal">`;
+    P.entries.filter(x=>x.target).forEach(t=>{
+      const helpers=[];t.cells.forEach(cell=>{const o=P.entries.find(x=>x!==t&&x.cells.includes(cell));if(o&&!o.target)helpers.push(o.word.toLowerCase())});
+      const lw=t.word.toLowerCase();
+      h+=`<h3>${lw}</h3><p class="body">${esc(WORDS[lw].def)}${helpers.length?` <span class="muted">${[...new Set(helpers)].map(x=>"<i>"+x+"</i>").join(" and ")} gave you ${helpers.length} of its ${t.word.length} letters.</span>`:""}</p>`;
+    });
+    h+=`</div><div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("crossword")}</div>`;
+  }
+  return h;
+}
+function cwType(l){
+  const g=V.g,e=curEntry();
+  if(!g.locked[g.sel]){g.letters[g.sel]=l;delete g.wrong[g.sel]}
+  const i=e.cells.indexOf(g.sel);
+  for(let j=i+1;j<e.cells.length;j++){if(!g.locked[e.cells[j]]){g.sel=e.cells[j];break}}
+  g.msg="";checkDone();
+}
+function cwBack(){
+  const g=V.g,e=curEntry();
+  if(g.letters[g.sel]&&!g.locked[g.sel]){delete g.letters[g.sel];delete g.wrong[g.sel];return}
+  const i=e.cells.indexOf(g.sel);
+  for(let j=i-1;j>=0;j--){if(!g.locked[e.cells[j]]){g.sel=e.cells[j];delete g.letters[g.sel];delete g.wrong[g.sel];break}}
+}
+function targetsWith(cell){return V.g.P.entries.filter(e=>e.target&&e.cells.includes(cell))}
+function cwCheck(){
+  const g=V.g,e=curEntry(),P=g.P;
+  if(e.cells.some(c=>!g.letters[c])){g.msg="Fill every letter first.";return}
+  const bad=e.cells.filter(c=>g.letters[c]!==P.cells[c]);
+  if(!bad.length){e.cells.forEach(c=>g.locked[c]=true);g.msg="Correct.";checkDone()}
+  else{bad.forEach(c=>g.wrong[c]=true);if(e.target)g.stats[e.word].fails++;g.msg=e.target&&g.stats[e.word].fails===1?"Not quite. Your first check on each word is free.":"Not quite."}
+}
+function cwRevealLetter(){
+  const g=V.g,P=g.P;if(g.locked[g.sel])return;
+  g.letters[g.sel]=P.cells[g.sel];g.locked[g.sel]=true;g.revealed[g.sel]=true;delete g.wrong[g.sel];
+  targetsWith(g.sel).forEach(t=>g.stats[t.word].reveals++);checkDone();
+}
+function cwRevealWord(){
+  const g=V.g,e=curEntry(),P=g.P;
+  e.cells.forEach(c=>{if(!g.locked[c]){g.letters[c]=P.cells[c];g.locked[c]=true;g.revealed[c]=true;delete g.wrong[c];targetsWith(c).forEach(t=>{if(t===e)return;g.stats[t.word].reveals++})}});
+  if(e.target)g.stats[e.word].revealed=true;checkDone();
+}
+function cwGiveUp(){V.g.P.entries.forEach(e=>{V.g.entry=e.id;cwRevealWord()})}
+function checkDone(){
+  const g=V.g,P=g.P;
+  if(g.done)return;
+  if(Object.keys(P.cells).every(c=>g.letters[c]===P.cells[c])){
+    g.done=true;g.end=Date.now();
+    const outs=P.entries.filter(e=>e.target).map(e=>{const s=g.stats[e.word];const w=e.word.toLowerCase();
+      if(s.revealed||s.fails>1)return{word:w,result:"fail"};if(s.reveals>0)return{word:w,result:"none"};return{word:w,result:"pass"}});
+    applyMoves(V.day,"crossword",outs,3);
+    const secs=Math.round((g.end-g.start)/1000);
+    const helps=Object.values(g.stats).reduce((a,s)=>a+s.reveals+(s.revealed?1:0),0);
+    res(V.day).crossword={summary:`Solved in ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")}${helps?` · ${helps} reveal${helps>1?"s":""}`:" · no reveals"}`};
+    save();
+  }
+}
+function crossShare(){const g=V.g;const secs=Math.round((g.end-g.start)/1000);const helps=Object.values(g.stats).reduce((a,s)=>a+s.reveals+(s.revealed?1:0),0);return`Rung · Mini Crossword, Day ${V.day}\n✅ ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")} · ${helps?helps+" reveals":"no reveals"}`}
+
+/* --- Flow --- */
+function nextButton(game){
+  if(!V.flow)return`<button class="btn" data-a="home">Back to today</button>`;
+  const i=GAMES.findIndex(g=>g.id===game);
+  const nx=GAMES.slice(i+1).find(g=>!res(V.day)[g.id]);
+  return nx?`<button class="btn" data-a="play" data-g="${nx.id}" data-flow="1">Next: ${nx.name}</button>`:`<button class="btn" data-a="recap">See today's climb</button>`;
+}
+function renderRecap(){
+  const moves=S.moves.filter(m=>m.day===V.day);
+  let h=topbar(true)+`<h1>Day ${V.day} climb</h1><p class="muted" style="margin-top:6px">Here's how your words moved today. Words climb one rung per game, and a miss sends a word down one rung.</p>`;
+  if(!moves.length)h+=`<div class="card" style="margin-top:14px">No words have moved yet today. Play a game to start climbing.</div>`;
+  else{
+    const latest={};moves.forEach(m=>latest[m.word+"|"+m.game]=m);
+    h+=`<ul class="moves">`;
+    Object.values(latest).forEach(m=>{
+      const kind=m.to>m.from?"up":m.to<m.from?"down":"held";
+      const txt=kind==="up"?`↑ ${RUNGS[m.to]}`:kind==="down"?`↓ ${RUNGS[m.to]}`:`Holding at ${RUNGS[m.to]}`;
+      h+=`<li><span class="mw">${m.word}</span><span class="muted small">${GAMES.find(g=>g.id===m.game).name}</span><span class="${kind}">${txt}</span></li>`});
+    h+=`</ul>`;
+  }
+  h+=`<div class="stack" style="margin-top:14px"><button class="btn" data-a="ladder">See your whole ladder</button>${V.day<7?`<button class="btn ghost" data-a="day" data-d="${V.day+1}">Want more? Play Day ${V.day+1}</button>`:""}<button class="btn ghost" data-a="feedback">Give feedback</button></div>`;
+  return h;
+}
+let openWord=null;
+function renderLadder(){
+  let h=topbar(true)+`<h1>Your ladder</h1><p class="muted" style="margin-top:6px">Every word climbs five rungs before it reaches your vault. This demo covers the first three; Wield and Survive arrive in the full app.</p>`;
+  h+=`<div class="rungkey">${RUNGS.slice(1).map((r,i)=>`<span>${i+1}. ${r}</span>`).join("")}</div><ul class="lad">`;
+  const ws=Object.keys(WORDS).sort((a,b)=>(S.rungs[b]-S.rungs[a])||a.localeCompare(b));
+  ws.forEach(w=>{const n=S.rungs[w];
+    h+=`<li><button class="w" data-a="word" data-w="${w}" aria-expanded="${openWord===w}"><span class="wname">${n?w:"<span class='muted'>"+w+"</span>"}</span><span class="muted small">${RUNGS[n]}</span><span class="bars">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":i>3?"future":""}"></i>`).join("")}</span></button>${openWord===w?`<div class="detail">${n?esc(WORDS[w].def):"You haven't met this word yet. It arrives in one of the daily Cases."}</div>`:""}</li>`});
+  return h+`</ul>`;
+}
+function renderAbout(){
+  return topbar(true)+`<h1>How it works</h1><div class="reveal" style="margin-top:14px">
+  <p class="body">Rung helps you build a stronger vocabulary with a few minutes of games a day. You don't learn a word by seeing it once, so every word comes back to you in harder and harder ways until it's truly yours.</p>
+  <h3>The ladder</h3><p class="body">Each word climbs five rungs: Deduce (work out its meaning), Discriminate (tell it apart from near misses), Recall (produce it yourself), Wield (use it in your own words), and Survive (remember it weeks later). Miss one, and the word slips back a rung to try again.</p>
+  <h3>Your daily session</h3><p class="body">The Case is a mystery word everyone plays each day. Codewords and the Mini Crossword bring back words you've met before. Together they take about five minutes.</p>
+  <h3>About this demo</h3><p class="body">This is a 7-day test with 20 words and the first three rungs. All seven days are unlocked so you can play at your own pace, but the real app releases one day at a time. Your progress is saved on this device only.</p></div>
+  <button class="btn" data-a="feedback">Give feedback</button>`;
+}
+const FBQ=[{k:"feel",q:"Did the games feel more like play or like a test?",opts:["Play","Somewhere between","A test"]},
+           {k:"fav",q:"Which game did you enjoy most?",opts:["The Case","Codewords","Mini Crossword"]},
+           {k:"daily",q:"Would you open this every day?",opts:["Yes","Maybe","Probably not"]},
+           {k:"confusing",q:"Was anything confusing or frustrating?",text:true},
+           {k:"remember",q:"Without looking, which words do you remember? What do they mean?",text:true},
+           {k:"else",q:"Anything else you'd change or add?",text:true}];
+function renderFeedback(){
+  let h=topbar(true)+`<h1>Your feedback</h1><p class="muted" style="margin-top:6px">Honest reactions help most. When you're done, copy your answers and send them to whoever shared this demo with you.</p><div class="fb">`;
+  FBQ.forEach(f=>{h+=`<label ${f.text?`for="fb-${f.k}"`:""}>${f.q}</label>`;
+    if(f.text)h+=`<textarea id="fb-${f.k}" data-fb="${f.k}">${esc(S.fb[f.k]||"")}</textarea>`;
+    else h+=`<div class="chips">${f.opts.map(o=>`<button class="chip" data-a="fbchip" data-k="${f.k}" data-v="${o}" aria-pressed="${S.fb[f.k]===o}">${o}</button>`).join("")}</div>`});
+  h+=`</div><div class="stack" style="margin-top:18px"><button class="btn" data-a="copyfb">Copy my feedback</button><div id="fbMsg"></div></div>`;
+  return h;
+}
+function fbText(){
+  const played=Object.keys(S.results).filter(d=>Object.keys(S.results[d]).some(k=>!k.endsWith("_counted"))).length;
+  const lines=["Rung demo feedback",`Days played: ${played} of 7`];
+  FBQ.forEach(f=>lines.push("",f.q,S.fb[f.k]||"(no answer)"));
+  const rung=Object.values(S.rungs);lines.push("",`Words at Recall: ${rung.filter(x=>x>=3).length} of 20`);
+  return lines.join("\n");
+}
+
+/* ============ MAIN ============ */
+function render(){
+  const app=$("#app");let h="";
+  switch(V.screen){
+    case"home":h=renderHome();break;
+    case"case":h=renderCase();break;
+    case"codewords":h=renderCodewords();break;
+    case"crossword":h=renderCrossword();break;
+    case"recap":h=renderRecap();break;
+    case"ladder":h=renderLadder();break;
+    case"about":h=renderAbout();break;
+    case"feedback":h=renderFeedback();break;
+  }
+  app.innerHTML=h;
+}
+function go(screen){V.screen=screen;render();window.scrollTo(0,0)}
+function play(id,flow){
+  V.flow=!!flow;
+  if(id==="case")startCase();else if(id==="codewords")startCodewords();else startCrossword();
+  go(id);
+}
+async function copy(text,target,okMsg){
+  let ok=false;
+  try{await navigator.clipboard.writeText(text);ok=true}catch(e){
+    try{const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();ok=document.execCommand("copy");ta.remove()}catch(e2){}
+  }
+  const el=$(target);if(!el)return;
+  if(ok)el.innerHTML=`<div class="copied">${okMsg}</div>`;
+  else el.innerHTML=`<p class="small muted" style="margin:8px 0 4px">Copying isn't available here. Select this text and copy it:</p><textarea readonly>${esc(text)}</textarea>`;
+}
+let resetArmed=false;
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;
+  const a=b.dataset.a;
+  if(a!=="reset")resetArmed=false;
+  switch(a){
+    case"home":go("home");break;
+    case"ladder":go("ladder");break;
+    case"about":go("about");break;
+    case"feedback":go("feedback");break;
+    case"recap":go("recap");break;
+    case"day":V.day=+b.dataset.d;go("home");break;
+    case"start":{const nx=GAMES.find(g=>!res(V.day)[g.id]);play(nx?nx.id:"case",true);break}
+    case"play":play(b.dataset.g,b.dataset.flow==="1"||V.flow&&V.screen!=="home");break;
+    case"reset":
+      if(!resetArmed){resetArmed=true;b.textContent="Tap again to erase progress";break}
+      S=fresh();save();V.day=today();resetArmed=false;go("home");break;
+    case"accuse":{const g=V.g,i=+b.dataset.i;
+      if(i===0){finishCase("solved")}
+      else{g.elim.push(i);if(g.ev<4){g.ev++;g.fresh=true}else finishCase("cold")}
+      render();break}
+    case"evidence":if(V.g.ev<4){V.g.ev++;V.g.fresh=true;render()}break;
+    case"share":{
+      const t=V.screen==="case"?caseShare():V.screen==="codewords"?cwShare():crossShare();
+      copy(t,"#shareMsg","Copied. Paste it anywhere to share.");break}
+    case"tile":tapTile(b.dataset.t);render();break;
+    case"peek":V.g.peek=!V.g.peek;render();break;
+    case"nextround":nextRound();render();break;
+    case"cell":{const g=V.g,key=b.dataset.k;
+      if(g.sel===key){const other=entryAt(key,g.dir==="a"?"d":"a");if(other){g.dir=other.dir;g.entry=other.id}}
+      else{g.sel=key;const same=entryAt(key,g.dir);const e2=same||entryAt(key,g.dir==="a"?"d":"a");g.dir=e2.dir;g.entry=e2.id}
+      g.msg="";render();break}
+    case"prevclue":case"nextclue":{const g=V.g,es=g.P.entries,i=es.findIndex(x=>x.id===g.entry);
+      const n=es[(i+(a==="nextclue"?1:-1)+es.length)%es.length];g.entry=n.id;g.dir=n.dir;g.sel=n.cells.find(c=>!g.letters[c])||n.cells[0];g.msg="";render();break}
+    case"key":cwType(b.dataset.l);render();break;
+    case"back":cwBack();render();break;
+    case"check":cwCheck();render();break;
+    case"revletter":cwRevealLetter();render();break;
+    case"revword":cwRevealWord();render();break;
+    case"root":{const e=curEntry();V.g.showRoot=e.id;V.g.stats[e.word].root=true;render();break}
+    case"giveup":cwGiveUp();render();break;
+    case"word":openWord=openWord===b.dataset.w?null:b.dataset.w;render();break;
+    case"fbchip":S.fb[b.dataset.k]=b.dataset.v;save();render();break;
+    case"copyfb":copy(fbText(),"#fbMsg","Copied. Paste it into a text or email to send it back.");break;
+  }
+});
+document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.fb;if(k){S.fb[k]=e.target.value;save()}});
+document.addEventListener("keydown",e=>{
+  if(V.screen!=="crossword"||!V.g||V.g.done||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(/^[a-z]$/i.test(e.key)){cwType(e.key.toUpperCase());render();e.preventDefault()}
+  else if(e.key==="Backspace"){cwBack();render();e.preventDefault()}
+});
+render();
+</script>
+</body>
+</html>
