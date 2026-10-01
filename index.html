@@ -59,13 +59,35 @@ p{margin:0}
 .row>*{flex:1}
 .stack>*+*{margin-top:12px}
 
-.days{display:flex;gap:6px;overflow-x:auto;padding:4px 0 2px;margin:16px 0 18px}
-.day{flex:0 0 auto;min-width:48px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 10px;text-align:center;font-weight:600;font-size:.85rem;line-height:1.2}
-.day b{display:block;font-size:1.05rem}
-.day[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
-.day .dots{display:flex;gap:3px;justify-content:center;margin-top:4px}
-.day .dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
-.day .dots i.on{background:var(--green)}
+.topr{display:flex;gap:14px}
+.viewing{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--gold-soft);border-radius:12px;padding:8px 8px 8px 14px;margin:0 0 14px;font-size:.92rem;font-weight:600}
+.viewing .link{padding:6px 8px}
+.note{margin:14px 0 0;color:var(--muted);font-size:.92rem;text-align:center}
+.cal{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:14px 12px 12px;margin-top:16px}
+.calhead{display:flex;justify-content:space-between;align-items:center;margin:0 4px 10px}
+.calhead h2{font-size:1.1rem}
+.calnav{display:flex;gap:4px}
+.calnav button{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line);background:none;font-size:1.1rem;line-height:1}
+.calnav button:disabled{opacity:.3;cursor:default}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow{font-size:.75rem;color:var(--muted);font-weight:600;text-align:center;padding:2px 0 6px}
+.cd{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:12px;border:1.5px solid transparent;background:none;padding:0;font-weight:650;font-size:.95rem;color:var(--muted);min-width:0}
+.cd.out{opacity:.35}
+.cd.open{color:var(--ink);background:var(--bg)}
+.cd.done{background:var(--green-soft);color:var(--green)}
+.cd.today{border-color:var(--blue)}
+.cd:disabled{cursor:default}
+.cd .dots{display:flex;gap:3px}
+.cd .dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.cd .dots i.on{background:var(--green)}
+.cd.done .dots i{background:var(--green)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 4px 0;font-size:.82rem;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:5px;display:inline-block}
+.calstats{display:flex;gap:10px;margin-top:14px}
+.calstats div{flex:1;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+.calstats b{display:block;font-size:1.5rem;font-weight:750;letter-spacing:-.02em}
+.calstats span{font-size:.85rem;color:var(--muted)}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
 .session{list-style:none;margin:0 0 16px;padding:0}
@@ -139,10 +161,7 @@ p{margin:0}
 .cell.lock{color:var(--green)}
 .cell.rev{color:var(--gold)}
 .cell.wrong{color:var(--red);background:var(--red-soft)}
-.cell.gift{color:var(--gold);background:var(--gold-soft);border-color:var(--gold)}
-.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
-.bw{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;font-family:var(--serif);font-size:1.08rem}
-.bw.usedw{opacity:.3;text-decoration:line-through}
+.cell.target{}
 .cluebar{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px}
 .cluebar .arrow{border:0;background:var(--blue-soft);color:var(--blue);border-radius:10px;width:36px;height:44px;font-weight:700;flex:0 0 auto}
 .cluebar .clue{flex:1;font-family:var(--serif);font-size:1.02rem;line-height:1.35;padding:0 4px}
@@ -180,29 +199,6 @@ p{margin:0}
 .chip[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
 textarea{width:100%;min-height:80px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;padding:10px 12px;resize:vertical}
 .copied{background:var(--green-soft);color:var(--green);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:600}
-
-button{touch-action:manipulation}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 18px rgba(0,0,0,.06)}
-.dock-inner{max-width:560px;margin:0 auto}
-.app.docked{padding-bottom:300px}
-.dock .helpers{justify-content:center;margin:8px 0 0}
-.dock .dmsg{margin:4px 0;min-height:1.3em;font-size:.9rem}
-.dock .kb{margin-top:0;-webkit-user-select:none;user-select:none}
-.dock .kb button{height:46px;max-width:none}
-.dock .cluebar{padding:6px}
-.dock .cluebar .arrow{height:40px}
-.cell.shade::after{content:"";position:absolute;inset:3px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;opacity:.8}
-.cell.glow{background:var(--gold-soft);border-color:var(--gold);color:var(--ink)}
-.mystery{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 14px;margin-top:6px}
-.mdef{font-family:var(--serif);font-size:1.15rem;text-align:center;margin:6px 0 14px}
-.slots{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-.slot{width:30px;height:40px;border:0;border-bottom:3px solid var(--ink);background:none;font-weight:750;font-size:1.25rem;padding:0}
-.ltiles{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-.ltile{width:42px;height:46px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-soft);font-weight:750;font-size:1.2rem;padding:0}
-.bank{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.bw{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;font-family:var(--serif);font-size:1.05rem}
-.bw.usedw{opacity:.3;text-decoration:line-through}
-@media (max-width:380px){.slot{width:24px}.ltile{width:36px;height:42px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -341,48 +337,7 @@ const BOARDS=[
 
 const CROSS=[["reticent","complacent"],["garrulous","sanguine"],["laconic","capricious"],["obsequious","profligate"],["circumspect","equivocate"],["anodyne","recalcitrant"],["perfunctory","sardonic"]];
 
-const CLUES=[
- {w:"sanguine",c:"A sanguine fan expects the team to do this",a:"WIN"},
- {w:"sanguine",c:"A sanguine person expects everything to turn out this way",a:"FINE"},
- {w:"laconic",c:"How a laconic person answers most questions",a:"BRIEFLY"},
- {w:"laconic",c:"A laconic reply to 'Want to come?' might be just this",a:"SURE"},
- {w:"obsequious",c:"An obsequious waiter does this a little too often",a:"BOWS"},
- {w:"obsequious",c:"Obsequious staff agree with every word from this person",a:"BOSS"},
- {w:"equivocate",c:"Politicians equivocate to avoid giving one of these",a:"ANSWER"},
- {w:"equivocate",c:"What an equivocating witness never gives: a straight ___",a:"REPLY"},
- {w:"recalcitrant",c:"A recalcitrant mule refuses to do this",a:"MOVE"},
- {w:"recalcitrant",c:"A recalcitrant child ignores these",a:"RULES"},
- {w:"perfunctory",c:"What a perfunctory apology lacks",a:"FEELING"},
- {w:"perfunctory",c:"A perfunctory glance lasts about this long",a:"SECOND"},
- {w:"insouciant",c:"An insouciant traveler doesn't do this about a missed train",a:"WORRY"},
- {w:"insouciant",c:"An insouciant shrug says: 'I don't ___'",a:"CARE"},
- {w:"parsimonious",c:"A parsimonious boss hates to part with this",a:"MONEY"},
- {w:"parsimonious",c:"How much a parsimonious diner usually tips",a:"NOTHING"},
- {w:"reticent",c:"A reticent friend keeps these to herself",a:"SECRETS"},
- {w:"reticent",c:"Reticent people are slow to do this with their feelings",a:"SHARE"},
- {w:"complacent",c:"A complacent team stops doing this",a:"TRAINING"},
- {w:"complacent",c:"Complacent guards stop paying this",a:"ATTENTION"},
- {w:"sycophantic",c:"Sycophantic aides shower the boss with this",a:"PRAISE"},
- {w:"sycophantic",c:"A sycophantic intern laughs at all the CEO's ___",a:"JOKES"},
- {w:"ebullient",c:"An ebullient host greets you with one of these",a:"HUG"},
- {w:"ebullient",c:"An ebullient crowd is bursting with this",a:"ENERGY"},
- {w:"garrulous",c:"What a garrulous seatmate won't stop doing",a:"TALKING"},
- {w:"garrulous",c:"A garrulous guest makes a short visit feel like this",a:"FOREVER"},
- {w:"mendacious",c:"A mendacious witness tells these",a:"LIES"},
- {w:"mendacious",c:"The one thing a mendacious ad never contains",a:"TRUTH"},
- {w:"capricious",c:"Capricious weather brings sun, then suddenly this",a:"RAIN"},
- {w:"capricious",c:"A capricious ruler changes these on a whim",a:"LAWS"},
- {w:"intransigent",c:"Intransigent negotiators refuse to make one of these",a:"DEAL"},
- {w:"intransigent",c:"An intransigent opponent won't give an ___",a:"INCH"},
- {w:"profligate",c:"A profligate heir eventually runs out of this",a:"CASH"},
- {w:"profligate",c:"The thing profligate spenders never do",a:"SAVE"},
- {w:"circumspect",c:"Circumspect drivers check these before changing lanes",a:"MIRRORS"},
- {w:"circumspect",c:"A circumspect investor avoids these",a:"RISKS"},
- {w:"sardonic",c:"A sardonic grin is closer to a sneer than to this",a:"SMILE"},
- {w:"sardonic",c:"Sardonic humor has this sharp quality",a:"EDGE"},
- {w:"anodyne",c:"An anodyne speech is sure to cause no ___",a:"OFFENSE"},
- {w:"anodyne",c:"An anodyne report is as exciting as watching this dry",a:"PAINT"}
-];
+const ANCHORS={CANDID:"Frank and honest",GENIAL:"Friendly and cheerful",SERENE:"Calm and peaceful",TIMID:"Easily frightened",EAGER:"Keen to do something",CURT:"Rudely brief",PRUDENT:"Wise about the future",NAIVE:"Lacking experience of the world",AMPLE:"More than enough",BRISK:"Quick and energetic",VAGUE:"Not clearly expressed",SOMBER:"Dark or gloomy in mood",RIGID:"Unable to bend",EARNEST:"Sincere and serious",LUCID:"Clearly expressed",CRUCIAL:"Extremely important",ASTUTE:"Sharp at judging situations",CONCISE:"Brief but complete",ROBUST:"Strong and sturdy",TACIT:"Understood without being said",OPAQUE:"Not see-through",SPARSE:"Thinly scattered",CASUAL:"Relaxed and informal",NOTION:"An idea or belief",RIVAL:"A competitor",PRIOR:"Coming before",DOCILE:"Easily managed",MUNDANE:"Ordinary and dull",AUSTERE:"Plain and severe",SUBTLE:"Not obvious",PLACID:"Calm and not easily upset",ARDENT:"Passionate",INEPT:"Lacking skill",SINCERE:"Genuine",TEPID:"Lukewarm",FRUGAL:"Careful with money",CYNIC:"One who expects the worst of people",STOIC:"Enduring hardship without complaint",SCANT:"Barely enough",DIRE:"Extremely serious",CRASS:"Lacking sensitivity",CANNY:"Shrewd, especially with money",IRONIC:"Meaning the opposite of what is said",SOCIAL:"Relating to society",CIVIL:"Polite, if not warm",SCORN:"Contempt",OPINE:"State one's view",RELIC:"An object from the past",ROUTINE:"A regular procedure",UNIQUE:"One of a kind",GRUFF:"Rough and abrupt",POLITE:"Well-mannered",ACCURATE:"Correct in every detail",CANDOR:"Open honesty",TRAIT:"A distinguishing quality",PANIC:"Sudden overwhelming fear",SPEND:"Pay out money"};
 
 /* ============ UTIL ============ */
 const KEY="rung-demo-v1";
@@ -400,7 +355,14 @@ let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
 if(!S||S.v!==1)S=fresh();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-function today(){const days=Math.floor((Date.now()-S.start)/864e5);return Math.min(7,Math.max(1,days+1))}
+const DEV=/[?&]dev\b/.test(location.search);
+function midnight(t){const d=new Date(t);d.setHours(0,0,0,0);return d}
+function dayDate(n){const d=midnight(S.start);d.setDate(d.getDate()+n-1);return d}
+function rawDay(){return Math.round((midnight(Date.now())-midnight(S.start))/864e5)+1}
+function today(){return Math.min(7,Math.max(1,rawDay()))}
+function unlocked(){return DEV?7:today()}
+const fmtDate=(d,o)=>d.toLocaleDateString(undefined,o||{weekday:"long",month:"long",day:"numeric"});
+function dayStatus(n){const r=S.results[n]||{};const c=GAMES.filter(g=>r[g.id]).length;return c===GAMES.length?"done":c?"partial":"none"}
 function res(day){return S.results[day]||(S.results[day]={})}
 
 let V={screen:"home",day:today(),flow:false,g:null};
@@ -412,7 +374,7 @@ function applyMoves(day,game,outcomes,gameRung){
   const out=[];
   for(const o of outcomes){
     const from=S.rungs[o.word]??0;let to=from;
-    if(o.result==="pass")to=Math.max(from,Math.min(o.rung||gameRung,from+1));
+    if(o.result==="pass")to=Math.max(from,Math.min(gameRung,from+1));
     else if(o.result==="fail")to=Math.max(1,from-1);
     else if(o.result==="enter")to=Math.max(from,1);
     S.rungs[o.word]=to;
@@ -424,8 +386,12 @@ function applyMoves(day,game,outcomes,gameRung){
 
 /* ============ CROSSWORD GENERATOR ============ */
 const cwCache={};
-function buildGrid(items,r){
-  const grid=new Map(),dirs=new Map(),entries=[],k=(a,b)=>a+","+b,MAX=9;
+function genCross(day){
+  if(cwCache[day])return cwCache[day];
+  const targets=CROSS[day-1].map(w=>w.toUpperCase());
+  const r=rng(day*131+7);
+  const grid=new Map(),dirs=new Map(),entries=[];
+  const k=(a,b)=>a+","+b;
   function fits(word,row,col,dir){
     const dr=dir==="d"?1:0,dc=dir==="a"?1:0;let cross=0;
     if(grid.has(k(row-dr,col-dc))||grid.has(k(row+dr*word.length,col+dc*word.length)))return -1;
@@ -441,79 +407,83 @@ function buildGrid(items,r){
   }
   function bounds(extra){
     let r0=1e9,r1=-1e9,c0=1e9,c1=-1e9;
-    const pts=[...grid.keys()].map(s=>s.split(",").map(Number));if(extra)pts.push(...extra);
+    const pts=[...grid.keys()].map(s=>s.split(",").map(Number));
+    if(extra)pts.push(...extra);
     for(const[a,b]of pts){r0=Math.min(r0,a);r1=Math.max(r1,a);c0=Math.min(c0,b);c1=Math.max(c1,b)}
     return{r0,r1,c0,c1,h:r1-r0+1,w:c1-c0+1};
   }
-  function place(item,row,col,dir){
-    const dr=dir==="d"?1:0,dc=dir==="a"?1:0,cells=[];
-    for(let i=0;i<item.a.length;i++){const key=k(row+dr*i,col+dc*i);grid.set(key,item.a[i]);if(!dirs.has(key))dirs.set(key,new Set());dirs.get(key).add(dir);cells.push(key)}
-    entries.push({item,word:item.a,r:row,c:col,dir,cells});
+  function place(e){
+    const dr=e.dir==="d"?1:0,dc=e.dir==="a"?1:0;e.cells=[];
+    for(let i=0;i<e.word.length;i++){const key=k(e.r+dr*i,e.c+dc*i);grid.set(key,e.word[i]);if(!dirs.has(key))dirs.set(key,new Set());dirs.get(key).add(e.dir);e.cells.push(key)}
+    entries.push(e);
   }
-  place(items[0],0,0,"a");
-  for(let pass=0;pass<2;pass++)for(const it of items){
-    if(entries.length>=6)break;
-    if(entries.some(e=>e.item.w===it.w||e.word===it.a))continue;
-    let best=null;
-    for(const[key,ch]of grid){
-      if(dirs.get(key).size>1)continue;
-      const d=[...dirs.get(key)][0]==="a"?"d":"a";const[cr,cc]=key.split(",").map(Number);
-      for(let j=0;j<it.a.length;j++){
-        if(it.a[j]!==ch)continue;
-        const row=d==="d"?cr-j:cr,col=d==="a"?cc-j:cc;
-        const x=fits(it.a,row,col,d);if(x<1)continue;
-        const b=bounds([[row,col],[row+(d==="d"?it.a.length-1:0),col+(d==="a"?it.a.length-1:0)]]);
-        if(b.h>MAX||b.w>MAX)continue;
-        const sc=x*10-Math.max(b.h,b.w)*.5+r()*3;
-        if(!best||sc>best.sc)best={sc,row,col,d};
+  const crossings=e=>e.cells.filter(c=>dirs.get(c).size>1).length;
+  const [t1,t2]=targets;
+  place({word:t1,r:0,c:0,dir:"a",target:true});
+  const opts=[];
+  for(let i=0;i<t1.length;i++)for(let j=0;j<t2.length;j++)if(t1[i]===t2[j])opts.push({r:-j,c:i,score:Math.abs(i-t1.length/2)+Math.abs(j-t2.length/2)});
+  opts.sort((a,b)=>a.score-b.score);
+  for(const o of opts){if(fits(t2,o.r,o.c,"d")>=1){place({word:t2,r:o.r,c:o.c,dir:"d",target:true});break}}
+  const pool=shuffle(Object.keys(ANCHORS),r);
+  const MAX=13;
+  for(let pass=0;pass<2;pass++){
+    for(const w of pool){
+      if(entries.length>=7)break;
+      if(entries.some(e=>e.word===w))continue;
+      const tEntries=entries.filter(e=>e.target);
+      if(tEntries.every(e=>crossings(e)>=3))break;
+      let best=null;
+      for(const te of tEntries){
+        if(crossings(te)>=3)continue;
+        const tdir=te.dir==="a"?"d":"a";
+        te.cells.forEach((cell,ci)=>{
+          if(dirs.get(cell).size>1)return;
+          const[cr,cc]=cell.split(",").map(Number);
+          for(let j=0;j<w.length;j++){
+            if(w[j]!==grid.get(cell))continue;
+            const row=tdir==="d"?cr-j:cr,col=tdir==="a"?cc-j:cc;
+            const x=fits(w,row,col,tdir);if(x<1)continue;
+            const ends=[[row,col],[row+(tdir==="d"?w.length-1:0),col+(tdir==="a"?w.length-1:0)]];
+            const b=bounds(ends);if(b.h>MAX||b.w>MAX)continue;
+            const nearEdge=Math.min(ci,te.cells.length-1-ci);
+            const sc=x*10+(te.cells.length-crossings(te))+ (nearEdge>0?2:0)+r();
+            if(!best||sc>best.sc)best={sc,e:{word:w,r:row,c:col,dir:tdir,target:false}};
+          }
+        });
       }
-    }
-    if(best)place(it,best.row,best.col,best.d);
-  }
-  if(entries.length<5)return null;
-  return{grid,entries,b:bounds()};
-}
-function pickShade(g,word,r){
-  const cells=shuffle([...g.grid.keys()],r),used=new Set(),out=[];
-  for(const ch of word){const c=cells.find(x=>!used.has(x)&&g.grid.get(x)===ch);if(!c)return null;used.add(c);out.push(c)}
-  return out;
-}
-function genCross(day){
-  if(cwCache[day])return cwCache[day];
-  const met=w=>!CASE_WORDS.includes(w)||CASE_WORDS.indexOf(w)<day;
-  const focus=new Set([CASES[day-1].word,...BOARDS[day-1].rounds.flatMap(x=>[...x.a,x.t]).filter(w=>WORDS[w])]);
-  const pref=CROSS[day-1];
-  for(let att=0;att<1500;att++){
-    const r=rng(day*1009+att*7919+1);
-    const pool=CLUES.filter(x=>met(x.w)&&!pref.includes(x.w));
-    const items=[...shuffle(pool.filter(x=>focus.has(x.w)),r),...shuffle(pool.filter(x=>!focus.has(x.w)),r)];
-    const g=buildGrid(items,r);if(!g)continue;
-    const used=new Set(g.entries.map(e=>e.item.w));
-    const cands=att<1000?pref:[...pref,...Object.keys(WORDS).filter(w=>met(w)&&!used.has(w)&&!pref.includes(w)).sort((a,b)=>a.length-b.length)];
-    for(const m of cands){
-      const sh=pickShade(g,m.toUpperCase(),r);if(!sh)continue;
-      const b=g.b,norm=key=>{const[a,c]=key.split(",").map(Number);return(a-b.r0)+","+(c-b.c0)};
-      const cells={};for(const[key,ch]of g.grid)cells[norm(key)]=ch;
-      const entries=g.entries.map((e,i)=>({id:i,word:e.word,w:e.item.w,dir:e.dir,r:e.r-b.r0,c:e.c-b.c0,cells:e.cells.map(norm),clue:e.item.c+" ("+e.word.length+")"}));
-      const starts=[...new Set(entries.map(e=>e.r+","+e.c))].sort((x,y)=>{const[a1,b1]=x.split(",").map(Number),[a2,b2]=y.split(",").map(Number);return a1-a2||b1-b2});
-      const nums={};starts.forEach((s,i)=>nums[s]=i+1);
-      entries.forEach(e=>e.num=nums[e.r+","+e.c]);
-      entries.sort((a,b)=>(a.dir===b.dir?a.num-b.num:(a.dir==="a"?-1:1)));
-      return(cwCache[day]={h:b.h,w:b.w,cells,entries,nums,shade:sh.map(norm),mystery:m});
+      if(best)place(best.e);
     }
   }
-  return null;
+  const b=bounds();
+  const cells={};
+  for(const[key,ch]of grid){const[a,c]=key.split(",").map(Number);cells[(a-b.r0)+","+(c-b.c0)]=ch}
+  entries.forEach(e=>{e.r-=b.r0;e.c-=b.c0;const dr=e.dir==="d"?1:0,dc=e.dir==="a"?1:0;e.cells=[];for(let i=0;i<e.word.length;i++)e.cells.push((e.r+dr*i)+","+(e.c+dc*i))});
+  const starts=[...new Set(entries.map(e=>e.r+","+e.c))].sort((x,y)=>{const[a1,b1]=x.split(",").map(Number),[a2,b2]=y.split(",").map(Number);return a1-a2||b1-b2});
+  const nums={};starts.forEach((s,i)=>nums[s]=i+1);
+  entries.forEach((e,i)=>{
+    e.num=nums[e.r+","+e.c];e.id=i;
+    const lw=e.word.toLowerCase();
+    if(e.target){
+      const idx=CROSS[day-1].indexOf(lw);
+      if(idx===0)e.clue=WORDS[lw].def+" ("+e.word.length+")";
+      else e.clue=WORDS[lw].sent.replace(new RegExp(lw,"i"),"___")+" ("+e.word.length+")";
+    }else e.clue=ANCHORS[e.word]+" ("+e.word.length+")";
+  });
+  entries.sort((a,b)=>(a.dir===b.dir?a.num-b.num:(a.dir==="a"?-1:1)));
+  const out={h:b.h,w:b.w,cells,entries,nums};
+  cwCache[day]=out;return out;
 }
 
 /* ============ RENDER HELPERS ============ */
 const logo=`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="2.4" height="20" rx="1.2" fill="currentColor"/><rect x="16.6" y="2" width="2.4" height="20" rx="1.2" fill="currentColor"/><rect x="6" y="5" width="12" height="2" rx="1" fill="var(--blue)"/><rect x="6" y="10" width="12" height="2" rx="1" fill="var(--blue)"/><rect x="6" y="15" width="12" height="2" rx="1" fill="var(--gold)"/></svg>`;
 function topbar(back){
-  return back?`<div class="top"><button class="back" data-a="home">‹ Today</button><button class="link" data-a="ladder">Your ladder</button></div>`
-             :`<div class="top"><div class="brand">${logo}Rung</div><button class="link" data-a="ladder">Your ladder</button></div>`;
+  const links=`<div class="topr"><button class="link" data-a="calendar">Calendar</button><button class="link" data-a="ladder">Your ladder</button></div>`;
+  return back?`<div class="top"><button class="back" data-a="home">‹ ${V.day===today()?"Today":"Day "+V.day}</button>${links}</div>`
+             :`<div class="top"><div class="brand">${logo}Rung</div>${links}</div>`;
 }
 const GAMES=[{id:"case",name:"The Case",rung:1,time:"1–2 min",what:"Work out a mystery word"},
              {id:"codewords",name:"Codewords",rung:2,time:"About 2 min",what:"Find the right words, dodge the trap"},
-             {id:"crossword",name:"Mini Crossword",rung:3,time:"2–3 min",what:"Clues built from your words, plus a mystery word"}];
+             {id:"crossword",name:"Mini Crossword",rung:3,time:"2–3 min",what:"Recall words with help from old ones"}];
 
 function dayTargets(day){
   const set=new Set([CASES[day-1].word]);
@@ -524,21 +494,56 @@ function dayTargets(day){
 
 /* ============ SCREENS ============ */
 function renderHome(){
-  const d=V.day,t=today(),R=res(d);
+  const d=V.day,t=today(),R=res(d),isToday=d===t;
   const doneCount=GAMES.filter(g=>R[g.id]).length;
   let h=topbar(false);
-  h+=`<p class="muted small">${d===t?"Today":"Viewing"} · Day ${d} of 7</p><h1>${doneCount===3?"Climb complete":"Today's climb"}</h1>
+  if(!isToday)h+=`<div class="viewing"><span>Replaying Day ${d}, ${fmtDate(dayDate(d),{month:"long",day:"numeric"})}</span><button class="link" data-a="day" data-d="${t}">Back to today</button></div>`;
+  h+=`<p class="muted small">${isToday?"Today, "+fmtDate(dayDate(d)):"Day "+d+" of 7"}</p><h1>${doneCount===3?"Climb complete":isToday?"Today's climb":"Day "+d+" climb"}</h1>
   <p class="muted" style="margin-top:6px">About 5 minutes. ${dayTargets(d).length} words are ready to climb.</p>`;
-  h+=`<div class="days">`;
-  for(let i=1;i<=7;i++){const r=S.results[i]||{};const dots=GAMES.map(g=>`<i class="${r[g.id]?"on":""}"></i>`).join("");
-    h+=`<button class="day" data-a="day" data-d="${i}" aria-pressed="${i===d}"><span>${i===t?"Today":"Day"}</span><b>${i}</b><span class="dots">${dots}</span></button>`}
-  h+=`</div><ol class="session">`;
+  h+=`<ol class="session" style="margin-top:18px">`;
   GAMES.forEach((g,i)=>{const r=R[g.id];
     h+=`<li class="${r?"done":""}"><span class="num">${r?"✓":i+1}</span><div class="info"><b>${g.name}</b><span>${r?esc(r.summary):g.what+" · "+g.time}</span></div><button data-a="play" data-g="${g.id}">${r?"Replay":"Play"}</button></li>`});
   h+=`</ol>`;
-  if(doneCount<3)h+=`<button class="btn" data-a="start">${doneCount?"Continue today's session":"Start today's session"}</button>`;
-  else h+=`<div class="stack"><button class="btn" data-a="recap">See today's climb</button>${d<7?`<button class="btn ghost" data-a="day" data-d="${d+1}">Want more? Play Day ${d+1}</button>`:""}</div>`;
+  if(doneCount<3)h+=`<button class="btn" data-a="start">${doneCount?(isToday?"Continue today's session":"Continue this day"):(isToday?"Start today's session":"Start this day")}</button>`;
+  else{
+    h+=`<div class="stack"><button class="btn" data-a="recap">${isToday?"See today's climb":"See Day "+d+" climb"}</button><button class="btn ghost" data-a="calendar">Open calendar</button></div>`;
+    if(isToday)h+=`<p class="note">${t<7||DEV?"New puzzles unlock tomorrow.":rawDay()>7?"That's all 7 days of the demo. Thanks for playing! You can replay any day from the calendar.":"This is the last day of the demo."}</p>`;
+  }
   h+=`<div class="foot"><button class="link" data-a="about">How it works</button><button class="link" data-a="feedback">Give feedback</button><button class="link" data-a="reset" id="resetBtn">Reset demo</button></div>`;
+  return h;
+}
+
+/* --- Calendar --- */
+let calMonth=null;
+function renderCalendar(){
+  const t=today(),u=unlocked();
+  const first=dayDate(1),last=dayDate(7);
+  if(!calMonth)calMonth=new Date(dayDate(t).getFullYear(),dayDate(t).getMonth(),1);
+  const y=calMonth.getFullYear(),m=calMonth.getMonth();
+  const minM=new Date(first.getFullYear(),first.getMonth(),1),maxM=new Date(last.getFullYear(),last.getMonth(),1);
+  let h=topbar(true)+`<h1>Your calendar</h1><p class="muted" style="margin-top:6px">Tap any past day to replay it. New puzzles unlock each day at midnight.</p>`;
+  h+=`<div class="cal"><div class="calhead"><h2>${calMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"})}</h2>`;
+  if(minM<maxM)h+=`<div class="calnav"><button data-a="calprev" aria-label="Previous month" ${calMonth<=minM?"disabled":""}>‹</button><button data-a="calnext" aria-label="Next month" ${calMonth>=maxM?"disabled":""}>›</button></div>`;
+  h+=`</div><div class="calgrid">`;
+  for(let i=0;i<7;i++){const d=new Date(2024,0,7+i);h+=`<div class="dow">${d.toLocaleDateString(undefined,{weekday:"narrow"})}</div>`}
+  const lead=new Date(y,m,1).getDay(),len=new Date(y,m+1,0).getDate();
+  for(let i=0;i<lead;i++)h+=`<div></div>`;
+  for(let dn=1;dn<=len;dn++){
+    const date=new Date(y,m,dn);
+    const n=Math.round((date-midnight(S.start))/864e5)+1;
+    const inDemo=n>=1&&n<=7,open=inDemo&&n<=u;
+    const st=open?dayStatus(n):"none";
+    const cls=["cd",!open?"out":"",open?"open":"",st==="done"?"done":"",n===t?"today":""].filter(Boolean).join(" ");
+    const r=S.results[n]||{};
+    const dots=open?`<span class="dots">${GAMES.map(g=>`<i class="${r[g.id]?"on":""}"></i>`).join("")}</span>`:"";
+    const label=fmtDate(date)+(open?(st==="done"?", all games done":st==="partial"?", some games done":n===t?", today":", not played"):inDemo?", not unlocked yet":"");
+    h+=open?`<button class="${cls}" data-a="day" data-d="${n}" aria-label="${label}">${dn}${dots}</button>`
+           :`<button class="${cls}" disabled aria-label="${label}">${dn}</button>`;
+  }
+  h+=`</div><div class="legend"><span><i style="background:var(--green-soft);border:1.5px solid var(--green)"></i>All games done</span><span><i style="border:1.5px solid var(--blue)"></i>Today</span><span><i style="background:var(--bg)"></i>Ready to play</span></div></div>`;
+  const doneDays=[...Array(u)].map((_,i)=>i+1).filter(n=>dayStatus(n)==="done").length;
+  let streak=0;for(let n=t;n>=1;n--){if(dayStatus(n)==="done")streak++;else if(n===t)continue;else break}
+  h+=`<div class="calstats"><div><b>${doneDays}</b><span>${doneDays===1?"day":"days"} complete</span></div><div><b>${streak}</b><span>day streak</span></div></div>`;
   return h;
 }
 
@@ -664,44 +669,57 @@ function cwShare(){const m={clean:"🟩",wobble:"🟨",trap:"🟥",lost:"⬛"};r
 
 /* --- Mini Crossword --- */
 function startCrossword(){
-  const P=genCross(V.day),r=rng(V.day*53+11);
-  const stats={};P.entries.forEach(e=>stats[e.id]={fails:0,reveals:0,revealed:false});
-  const inGrid=new Set(P.entries.map(e=>e.word)),lens=new Set(P.entries.map(e=>e.word.length));
-  const decoys=shuffle([...new Set(CLUES.map(x=>x.a))].filter(a=>!inGrid.has(a)&&lens.has(a.length)),r).slice(0,2);
+  const P=genCross(V.day);
+  const stats={};P.entries.filter(e=>e.target).forEach(e=>stats[e.word]={reveals:0,fails:0,revealed:false,root:false});
   const first=P.entries[0];
-  V.g={type:"crossword",P,letters:{},locked:{},revealed:{},wrong:{},sel:first.cells[0],dir:first.dir,entry:first.id,stats,msg:"",start:Date.now(),
-       mode:"keys",bank:shuffle([...P.entries.map(e=>e.word),...decoys],r),used:{},bounce:null,phase:"grid",
-       mys:{tiles:shuffle(P.mystery.toUpperCase().split("").map((l,i)=>({l,id:i})),r),slots:[],tries:0,hint:false,gaveUp:false,solved:false,shake:false,msg:""}};
+  V.g={type:"crossword",P,letters:{},locked:{},revealed:{},wrong:{},sel:first.cells[0],dir:first.dir,entry:first.id,stats,done:false,msg:"",start:Date.now(),showRoot:null};
 }
 function entryAt(cell,dir){return V.g.P.entries.find(e=>e.dir===dir&&e.cells.includes(cell))}
 function curEntry(){return V.g.P.entries.find(e=>e.id===V.g.entry)}
-function entrySolved(e){return e.cells.every(c=>V.g.locked[c])}
-function entriesWith(cell){return V.g.P.entries.filter(e=>e.cells.includes(cell))}
-function lockEntry(e){const g=V.g;e.cells.forEach(c=>{g.letters[c]=g.P.cells[c];g.locked[c]=true;delete g.wrong[c]});g.used[e.word]=true}
-function selectNextOpen(){
-  const g=V.g,es=g.P.entries,i=es.findIndex(x=>x.id===g.entry);
-  for(let k=1;k<=es.length;k++){const n=es[(i+k)%es.length];if(!entrySolved(n)){g.entry=n.id;g.dir=n.dir;g.sel=n.cells.find(c=>!g.locked[c])||n.cells[0];return}}
+function renderCrossword(){
+  const g=V.g,P=g.P,e=curEntry();
+  let h=topbar(true);
+  h+=`<div class="status"><span>Mini Crossword · Day ${V.day}</span><span class="muted small">${P.entries.length} words</span></div>`;
+  const size=Math.min(44*P.w,520);
+  h+=`<div class="cw-wrap"><div class="cw" style="grid-template-columns:repeat(${P.w},1fr);max-width:${size}px">`;
+  for(let r=0;r<P.h;r++)for(let c=0;c<P.w;c++){
+    const key=r+","+c;
+    if(!P.cells[key]){h+=`<div class="cell"></div>`;continue}
+    const cls=["cell","l"];
+    if(e.cells.includes(key))cls.push("inword");
+    if(key===g.sel)cls.push("sel");
+    if(g.revealed[key])cls.push("rev");else if(g.locked[key])cls.push("lock");
+    if(g.wrong[key])cls.push("wrong");
+    const n=P.nums[key];
+    h+=`<button class="${cls.join(" ")}" data-a="cell" data-k="${key}" aria-label="Row ${r+1} column ${c+1}">${n?`<span class="n">${n}</span>`:""}${g.letters[key]||""}</button>`;
+  }
+  h+=`</div></div>`;
+  if(!g.done){
+    h+=`<div class="cluebar"><button class="arrow" data-a="prevclue" aria-label="Previous clue">‹</button><div class="clue"><small>${e.num} ${e.dir==="a"?"Across":"Down"}</small>${esc(e.clue)}</div><button class="arrow" data-a="nextclue" aria-label="Next clue">›</button></div>`;
+    if(g.showRoot===e.id)h+=`<div class="rootclue" style="margin-top:8px">Root clue: ${esc(WORDS[e.word.toLowerCase()].root)}</div>`;
+    h+=`<div class="helpers">${e.target?`<button data-a="root">Root clue</button>`:""}<button data-a="check">Check word</button><button data-a="revletter">Reveal letter</button><button data-a="revword">Reveal word</button></div>`;
+    h+=`<div class="toast" style="margin:2px 0">${esc(g.msg)}</div>`;
+    const rows=["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
+    h+=`<div class="kb">`+rows.map((row,i)=>`<div>${[...row].map(l=>`<button data-a="key" data-l="${l}">${l}</button>`).join("")}${i===2?`<button class="wide" data-a="back" aria-label="Delete">⌫</button>`:""}</div>`).join("")+`</div>`;
+    h+=`<button class="link" data-a="giveup" style="display:block;margin:14px auto 0">Reveal the whole puzzle</button>`;
+  }else{
+    const secs=Math.round((g.end-g.start)/1000),mm=Math.floor(secs/60),ss=String(secs%60).padStart(2,"0");
+    h+=`<p class="verdict">Solved</p><p class="muted" style="text-align:center">${mm}:${ss}</p><div class="reveal">`;
+    P.entries.filter(x=>x.target).forEach(t=>{
+      const helpers=[];t.cells.forEach(cell=>{const o=P.entries.find(x=>x!==t&&x.cells.includes(cell));if(o&&!o.target)helpers.push(o.word.toLowerCase())});
+      const lw=t.word.toLowerCase();
+      h+=`<h3>${lw}</h3><p class="body">${esc(WORDS[lw].def)}${helpers.length?` <span class="muted">${[...new Set(helpers)].map(x=>"<i>"+x+"</i>").join(" and ")} gave you ${helpers.length} of its ${t.word.length} letters.</span>`:""}</p>`;
+    });
+    h+=`</div><div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("crossword")}</div>`;
+  }
+  return h;
 }
-function autoCheck(cell){
-  const g=V.g;let solvedAny=false;
-  entriesWith(cell).forEach(e=>{
-    if(entrySolved(e)||e.cells.some(c=>!g.letters[c]))return;
-    const bad=e.cells.filter(c=>g.letters[c]!==g.P.cells[c]);
-    if(!bad.length){lockEntry(e);solvedAny=true;g.msg=`${e.word.toLowerCase()} ✓`}
-    else{bad.forEach(c=>g.wrong[c]=true);g.stats[e.id].fails++;g.msg=g.stats[e.id].fails===1?"Not quite. Think about what the clue's key word means.":"Still not it. Try a reveal if you're stuck."}
-  });
-  return solvedAny;
-}
-function gridCheck(){if(Object.keys(V.g.P.cells).every(c=>V.g.locked[c])){V.g.phase="mystery";V.g.msg="";V.g.gridEnd=Date.now()}}
 function cwType(l){
   const g=V.g,e=curEntry();
-  if(g.locked[g.sel]){const nx=e.cells.find(c=>!g.locked[c]);if(!nx)return;g.sel=nx}
-  g.letters[g.sel]=l;delete g.wrong[g.sel];g.msg="";
-  const solved=autoCheck(g.sel);
-  if(solved&&entrySolved(e)){gridCheck();if(g.phase==="grid")selectNextOpen();return}
+  if(!g.locked[g.sel]){g.letters[g.sel]=l;delete g.wrong[g.sel]}
   const i=e.cells.indexOf(g.sel);
-  const nx=e.cells.slice(i+1).find(c=>!g.locked[c]);if(nx)g.sel=nx;
-  gridCheck();
+  for(let j=i+1;j<e.cells.length;j++){if(!g.locked[e.cells[j]]){g.sel=e.cells[j];break}}
+  g.msg="";checkDone();
 }
 function cwBack(){
   const g=V.g,e=curEntry();
@@ -709,110 +727,40 @@ function cwBack(){
   const i=e.cells.indexOf(g.sel);
   for(let j=i-1;j>=0;j--){if(!g.locked[e.cells[j]]){g.sel=e.cells[j];delete g.letters[g.sel];delete g.wrong[g.sel];break}}
 }
+function targetsWith(cell){return V.g.P.entries.filter(e=>e.target&&e.cells.includes(cell))}
+function cwCheck(){
+  const g=V.g,e=curEntry(),P=g.P;
+  if(e.cells.some(c=>!g.letters[c])){g.msg="Fill every letter first.";return}
+  const bad=e.cells.filter(c=>g.letters[c]!==P.cells[c]);
+  if(!bad.length){e.cells.forEach(c=>g.locked[c]=true);g.msg="Correct.";checkDone()}
+  else{bad.forEach(c=>g.wrong[c]=true);if(e.target)g.stats[e.word].fails++;g.msg=e.target&&g.stats[e.word].fails===1?"Not quite. Your first check on each word is free.":"Not quite."}
+}
 function cwRevealLetter(){
-  const g=V.g;if(g.locked[g.sel])return;
-  g.letters[g.sel]=g.P.cells[g.sel];g.locked[g.sel]=true;g.revealed[g.sel]=true;delete g.wrong[g.sel];
-  entriesWith(g.sel).forEach(e=>g.stats[e.id].reveals++);
-  entriesWith(g.sel).forEach(e=>{if(e.cells.every(c=>g.letters[c]===g.P.cells[c]))lockEntry(e)});
-  gridCheck();if(g.phase==="grid"&&entrySolved(curEntry()))selectNextOpen();else{const nx=curEntry().cells.find(c=>!g.locked[c]);if(nx)g.sel=nx}
+  const g=V.g,P=g.P;if(g.locked[g.sel])return;
+  g.letters[g.sel]=P.cells[g.sel];g.locked[g.sel]=true;g.revealed[g.sel]=true;delete g.wrong[g.sel];
+  targetsWith(g.sel).forEach(t=>g.stats[t.word].reveals++);checkDone();
 }
 function cwRevealWord(){
-  const g=V.g,e=curEntry();
-  e.cells.forEach(c=>{if(!g.locked[c])g.revealed[c]=true});lockEntry(e);g.stats[e.id].revealed=true;g.msg="";
-  g.P.entries.forEach(x=>{if(!entrySolved(x)&&x.cells.every(c=>g.letters[c]===g.P.cells[c]))lockEntry(x)});
-  gridCheck();if(g.phase==="grid")selectNextOpen();
+  const g=V.g,e=curEntry(),P=g.P;
+  e.cells.forEach(c=>{if(!g.locked[c]){g.letters[c]=P.cells[c];g.locked[c]=true;g.revealed[c]=true;delete g.wrong[c];targetsWith(c).forEach(t=>{if(t===e)return;g.stats[t.word].reveals++})}});
+  if(e.target)g.stats[e.word].revealed=true;checkDone();
 }
-function placeFromBank(word){
-  const g=V.g,e=curEntry();
-  if(g.used[word])return;
-  if(entrySolved(e)){g.msg="That one's solved. Pick another clue.";return}
-  if(word.length!==e.word.length){g.msg=`That doesn't fit. This space needs ${e.word.length} letters.`;g.bounce=word;return}
-  if(word!==e.word){g.stats[e.id].fails++;g.msg="Not quite. Think about what the clue's key word means.";g.bounce=word;return}
-  lockEntry(e);g.msg=`${word.toLowerCase()} ✓`;
-  g.P.entries.forEach(x=>{if(!entrySolved(x)&&x.cells.every(c=>g.letters[c]===g.P.cells[c]))lockEntry(x)});
-  gridCheck();if(g.phase==="grid")selectNextOpen();
-}
-function mysTile(id){
-  const m=V.g.mys,len=V.g.P.mystery.length;
-  if(m.solved||m.slots.includes(id)||m.slots.length>=len)return;
-  m.slots.push(id);m.msg="";
-  if(m.slots.length===len){
-    const guess=m.slots.map(i=>m.tiles.find(t=>t.id===i).l).join("");
-    if(guess===V.g.P.mystery.toUpperCase()){m.solved=true;finishCrossword()}
-    else{m.tries++;m.shake=true;m.slots=[];m.msg=m.tries===1?"Not that one. Shuffle it around and try again.":"Still not it. A hint might help."}
+function cwGiveUp(){V.g.P.entries.forEach(e=>{V.g.entry=e.id;cwRevealWord()})}
+function checkDone(){
+  const g=V.g,P=g.P;
+  if(g.done)return;
+  if(Object.keys(P.cells).every(c=>g.letters[c]===P.cells[c])){
+    g.done=true;g.end=Date.now();
+    const outs=P.entries.filter(e=>e.target).map(e=>{const s=g.stats[e.word];const w=e.word.toLowerCase();
+      if(s.revealed||s.fails>1)return{word:w,result:"fail"};if(s.reveals>0)return{word:w,result:"none"};return{word:w,result:"pass"}});
+    applyMoves(V.day,"crossword",outs,3);
+    const secs=Math.round((g.end-g.start)/1000);
+    const helps=Object.values(g.stats).reduce((a,s)=>a+s.reveals+(s.revealed?1:0),0);
+    res(V.day).crossword={summary:`Solved in ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")}${helps?` · ${helps} reveal${helps>1?"s":""}`:" · no reveals"}`};
+    save();
   }
 }
-function finishCrossword(){
-  const g=V.g,m=g.mys;g.done=true;g.phase="done";g.end=Date.now();
-  const outs=g.P.entries.map(e=>{const s=g.stats[e.id];
-    if(s.revealed||s.fails>1)return{word:e.w,result:"fail"};if(s.reveals>0)return{word:e.w,result:"none"};return{word:e.w,result:"pass"}});
-  let mr="none";if(m.gaveUp||m.tries>2)mr="fail";else if(m.tries<=1&&!m.hint)mr="pass";
-  outs.push({word:g.P.mystery,result:mr,rung:3});
-  applyMoves(V.day,"crossword",outs,2);
-  const secs=Math.round((g.end-g.start)/1000);
-  res(V.day).crossword={summary:`Solved in ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")} · mystery word ${m.gaveUp?"revealed":"found"}`};
-  save();
-}
-function renderGrid(){
-  const g=V.g,P=g.P,e=curEntry(),shade=new Set(P.shade);
-  const size=Math.min(40*P.w,420);
-  let h=`<div class="cw-wrap"><div class="cw" style="grid-template-columns:repeat(${P.w},1fr);max-width:${size}px">`;
-  for(let r=0;r<P.h;r++)for(let c=0;c<P.w;c++){
-    const key=r+","+c;
-    if(!P.cells[key]){h+=`<div class="cell"></div>`;continue}
-    const cls=["cell","l"];
-    if(g.phase==="grid"&&e.cells.includes(key))cls.push("inword");
-    if(g.phase==="grid"&&key===g.sel)cls.push("sel");
-    if(g.revealed[key])cls.push("rev");else if(g.locked[key])cls.push("lock");
-    if(g.wrong[key])cls.push("wrong");
-    if(shade.has(key))cls.push(g.phase==="grid"?"shade":"shade glow");
-    const n=P.nums[key];
-    h+=`<button class="${cls.join(" ")}" data-a="cell" data-k="${key}" aria-label="Row ${r+1} column ${c+1}${shade.has(key)?", circled":""}">${n?`<span class="n">${n}</span>`:""}${g.letters[key]||""}</button>`;
-  }
-  return h+`</div></div>`;
-}
-function renderCrossword(){
-  const g=V.g,P=g.P,e=curEntry(),m=g.mys;
-  let h=topbar(true);
-  h+=`<div class="status"><span>Mini Crossword · Day ${V.day}</span><span class="muted small">${g.phase==="grid"?`${P.entries.filter(entrySolved).length} of ${P.entries.length} solved`:"Grid complete"}</span></div>`;
-  if(g.phase==="grid")h+=`<p class="muted small" style="margin-bottom:8px">Every clue hides one of your words. Circled squares hold a mystery word for the finale.</p>`;
-  h+=renderGrid();
-  if(g.phase==="grid"){
-    h+=`<div class="dock"><div class="dock-inner">`;
-    h+=`<div class="cluebar"><button class="arrow" data-a="prevclue" aria-label="Previous clue">‹</button><div class="clue"><small>${e.num} ${e.dir==="a"?"Across":"Down"}</small>${esc(e.clue)}</div><button class="arrow" data-a="nextclue" aria-label="Next clue">›</button></div>`;
-    h+=`<div class="toast dmsg">${esc(g.msg)}</div>`;
-    if(g.mode==="bank"){
-      h+=`<div class="bank">${g.bank.map(w=>`<button class="bw ${g.used[w]?"usedw":""} ${g.bounce===w?"shake":""}" data-a="bankword" data-w="${w}" ${g.used[w]?"disabled":""}>${w.toLowerCase()}</button>`).join("")}</div>`;
-    }else{
-      const rows=["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"];
-      h+=`<div class="kb">`+rows.map((row,i)=>`<div>${[...row].map(l=>`<button data-a="key" data-l="${l}">${l}</button>`).join("")}${i===2?`<button class="wide" data-a="back" aria-label="Delete">⌫</button>`:""}</div>`).join("")+`</div>`;
-    }
-    g.bounce=null;
-    h+=`<div class="helpers"><button data-a="mode">${g.mode==="bank"?"Keyboard":"Word bank"}</button><button data-a="revletter">Reveal letter</button><button data-a="revword">Reveal word</button></div>`;
-    h+=`</div></div>`;
-  }else if(g.phase==="mystery"){
-    const len=P.mystery.length;
-    h+=`<div class="mystery"><p class="verdict" style="font-size:1.35rem">Grid solved. One more.</p>
-    <p class="muted" style="text-align:center">The circled letters spell a word from your ladder. It means:</p>
-    <p class="mdef">${esc(WORDS[P.mystery].def)}</p>
-    <div class="slots ${m.shake?"shake":""}">${Array.from({length:len},(_,i)=>{const id=m.slots[i];const t=id!==undefined?m.tiles.find(x=>x.id===id):null;return`<button class="slot" data-a="mslot" data-i="${i}" aria-label="Letter ${i+1}">${t?t.l:(m.hint&&i===0?`<span class="muted">${P.mystery[0].toUpperCase()}</span>`:"")}</button>`}).join("")}</div>
-    <div class="ltiles">${m.tiles.map(t=>`<button class="ltile" data-a="mtile" data-id="${t.id}" ${m.slots.includes(t.id)?"style='visibility:hidden'":""}>${t.l}</button>`).join("")}</div>
-    <div class="toast">${esc(m.msg)}</div>
-    <div class="helpers" style="justify-content:center"><button data-a="mclear">Clear</button>${m.hint?"":`<button data-a="mhint">Hint: first letter</button>`}<button data-a="mgiveup">Show me</button></div></div>`;
-    m.shake=false;
-  }else{
-    const secs=Math.round((g.end-g.start)/1000),mm=Math.floor(secs/60),ss=String(secs%60).padStart(2,"0");
-    h+=`<p class="verdict">${m.gaveUp?"Puzzle complete":"Mystery solved"}</p><p class="muted" style="text-align:center">${mm}:${ss}</p>
-    <div class="reveal"><h3>Mystery word</h3><p class="body"><b>${P.mystery}</b>: ${esc(WORDS[P.mystery].def)}</p>
-    <h3>Words hiding in today's clues</h3>${P.entries.map(x=>`<p class="body" style="margin-bottom:6px"><b>${x.w}</b> led you to <i>${x.word.toLowerCase()}</i>. ${esc(WORDS[x.w].def)}</p>`).join("")}</div>
-    <div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("crossword")}</div>`;
-  }
-  return h;
-}
-function crossShare(){
-  const g=V.g,secs=Math.round((g.end-g.start)/1000),helps=Object.values(g.stats).reduce((a,s)=>a+s.reveals+(s.revealed?1:0),0);
-  return`Rung · Mini Crossword, Day ${V.day}\n✅ ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")} · ${helps?helps+" reveals":"no reveals"}\n🔤 Mystery word ${g.mys.gaveUp?"revealed":g.mys.tries===0?"on the first try":"found"}`;
-}
+function crossShare(){const g=V.g;const secs=Math.round((g.end-g.start)/1000);const helps=Object.values(g.stats).reduce((a,s)=>a+s.reveals+(s.revealed?1:0),0);return`Rung · Mini Crossword, Day ${V.day}\n✅ ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")} · ${helps?helps+" reveals":"no reveals"}`}
 
 /* --- Flow --- */
 function nextButton(game){
@@ -834,7 +782,7 @@ function renderRecap(){
       h+=`<li><span class="mw">${m.word}</span><span class="muted small">${GAMES.find(g=>g.id===m.game).name}</span><span class="${kind}">${txt}</span></li>`});
     h+=`</ul>`;
   }
-  h+=`<div class="stack" style="margin-top:14px"><button class="btn" data-a="ladder">See your whole ladder</button>${V.day<7?`<button class="btn ghost" data-a="day" data-d="${V.day+1}">Want more? Play Day ${V.day+1}</button>`:""}<button class="btn ghost" data-a="feedback">Give feedback</button></div>`;
+  h+=`<div class="stack" style="margin-top:14px"><button class="btn" data-a="ladder">See your whole ladder</button><button class="btn ghost" data-a="calendar">Open calendar</button><button class="btn ghost" data-a="feedback">Give feedback</button></div>`;
   return h;
 }
 let openWord=null;
@@ -850,7 +798,7 @@ function renderAbout(){
   return topbar(true)+`<h1>How it works</h1><div class="reveal" style="margin-top:14px">
   <p class="body">Rung helps you build a stronger vocabulary with a few minutes of games a day. You don't learn a word by seeing it once, so every word comes back to you in harder and harder ways until it's truly yours.</p>
   <h3>The ladder</h3><p class="body">Each word climbs five rungs: Deduce (work out its meaning), Discriminate (tell it apart from near misses), Recall (produce it yourself), Wield (use it in your own words), and Survive (remember it weeks later). Miss one, and the word slips back a rung to try again.</p>
-  <h3>Your daily session</h3><p class="body">The Case is a mystery word everyone plays each day. Codewords and the Mini Crossword bring back words you've met before, and the crossword ends with a mystery word to unscramble. Together they take about five minutes.</p>
+  <h3>Your daily session</h3><p class="body">The Case is a mystery word everyone plays each day. Codewords and the Mini Crossword bring back words you've met before. Together they take about five minutes.</p>
   <h3>About this demo</h3><p class="body">This is a 7-day test with 20 words and the first three rungs. All seven days are unlocked so you can play at your own pace, but the real app releases one day at a time. Your progress is saved on this device only.</p></div>
   <button class="btn" data-a="feedback">Give feedback</button>`;
 }
@@ -885,12 +833,12 @@ function render(){
     case"codewords":h=renderCodewords();break;
     case"crossword":h=renderCrossword();break;
     case"recap":h=renderRecap();break;
+    case"calendar":h=renderCalendar();break;
     case"ladder":h=renderLadder();break;
     case"about":h=renderAbout();break;
     case"feedback":h=renderFeedback();break;
   }
   app.innerHTML=h;
-  app.classList.toggle("docked",V.screen==="crossword"&&V.g&&V.g.phase==="grid");
 }
 function go(screen){V.screen=screen;render();window.scrollTo(0,0)}
 function play(id,flow){
@@ -918,7 +866,9 @@ document.addEventListener("click",e=>{
     case"about":go("about");break;
     case"feedback":go("feedback");break;
     case"recap":go("recap");break;
-    case"day":V.day=+b.dataset.d;go("home");break;
+    case"day":{const n=+b.dataset.d;if(n>=1&&n<=unlocked()){V.day=n;go("home")}break}
+    case"calendar":calMonth=null;go("calendar");break;
+    case"calprev":case"calnext":calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+(a==="calnext"?1:-1),1);render();break;
     case"start":{const nx=GAMES.find(g=>!res(V.day)[g.id]);play(nx?nx.id:"case",true);break}
     case"play":play(b.dataset.g,b.dataset.flow==="1"||V.flow&&V.screen!=="home");break;
     case"reset":
@@ -935,23 +885,19 @@ document.addEventListener("click",e=>{
     case"tile":tapTile(b.dataset.t);render();break;
     case"peek":V.g.peek=!V.g.peek;render();break;
     case"nextround":nextRound();render();break;
-    case"cell":{const g=V.g;if(g.phase!=="grid")break;const key=b.dataset.k;
+    case"cell":{const g=V.g,key=b.dataset.k;
       if(g.sel===key){const other=entryAt(key,g.dir==="a"?"d":"a");if(other){g.dir=other.dir;g.entry=other.id}}
-      else{g.sel=key;const e2=entryAt(key,g.dir)||entryAt(key,g.dir==="a"?"d":"a");g.dir=e2.dir;g.entry=e2.id}
+      else{g.sel=key;const same=entryAt(key,g.dir);const e2=same||entryAt(key,g.dir==="a"?"d":"a");g.dir=e2.dir;g.entry=e2.id}
       g.msg="";render();break}
     case"prevclue":case"nextclue":{const g=V.g,es=g.P.entries,i=es.findIndex(x=>x.id===g.entry);
-      const n=es[(i+(a==="nextclue"?1:-1)+es.length)%es.length];g.entry=n.id;g.dir=n.dir;g.sel=n.cells.find(c=>!g.locked[c])||n.cells[0];g.msg="";render();break}
+      const n=es[(i+(a==="nextclue"?1:-1)+es.length)%es.length];g.entry=n.id;g.dir=n.dir;g.sel=n.cells.find(c=>!g.letters[c])||n.cells[0];g.msg="";render();break}
     case"key":cwType(b.dataset.l);render();break;
     case"back":cwBack();render();break;
+    case"check":cwCheck();render();break;
     case"revletter":cwRevealLetter();render();break;
     case"revword":cwRevealWord();render();break;
-    case"mode":V.g.mode=V.g.mode==="bank"?"keys":"bank";V.g.msg="";render();break;
-    case"bankword":placeFromBank(b.dataset.w);render();break;
-    case"mtile":mysTile(+b.dataset.id);render();break;
-    case"mslot":{const m=V.g.mys,i=+b.dataset.i;if(i<m.slots.length)m.slots.splice(i,1);render();break}
-    case"mclear":V.g.mys.slots=[];render();break;
-    case"mhint":V.g.mys.hint=true;render();break;
-    case"mgiveup":V.g.mys.gaveUp=true;V.g.mys.solved=true;finishCrossword();render();break;
+    case"root":{const e=curEntry();V.g.showRoot=e.id;V.g.stats[e.word].root=true;render();break}
+    case"giveup":cwGiveUp();render();break;
     case"word":openWord=openWord===b.dataset.w?null:b.dataset.w;render();break;
     case"fbchip":S.fb[b.dataset.k]=b.dataset.v;save();render();break;
     case"copyfb":copy(fbText(),"#fbMsg","Copied. Paste it into a text or email to send it back.");break;
@@ -959,10 +905,11 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.fb;if(k){S.fb[k]=e.target.value;save()}});
 document.addEventListener("keydown",e=>{
-  if(V.screen!=="crossword"||!V.g||V.g.phase!=="grid"||V.g.mode!=="keys"||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(V.screen!=="crossword"||!V.g||V.g.done||e.metaKey||e.ctrlKey||e.altKey)return;
   if(/^[a-z]$/i.test(e.key)){cwType(e.key.toUpperCase());render();e.preventDefault()}
   else if(e.key==="Backspace"){cwBack();render();e.preventDefault()}
 });
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&V.screen==="home"&&V.day<today()){V.day=today();render()}});
 render();
 </script>
 </body>
