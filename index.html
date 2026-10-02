@@ -236,11 +236,11 @@ button{touch-action:manipulation}
 .mdots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
 .mdots i.on{background:var(--ink)}
 .gtiles{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
-.gt{aspect-ratio:1.15;border:0;border-radius:10px;background:var(--blue-soft);color:var(--ink);font-family:var(--serif);font-weight:500;font-size:clamp(.72rem,3.3vw,1rem);padding:4px 3px;overflow-wrap:anywhere;line-height:1.15}
+.gt{aspect-ratio:1.15;border:0;border-radius:10px;background:var(--blue-soft);color:var(--ink);font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:.01em;font-size:clamp(.6rem,2.9vw,.9rem);padding:4px 3px;overflow-wrap:anywhere;line-height:1.15}
 .gt[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .gbar{border-radius:12px;padding:12px 14px;margin-bottom:6px;text-align:center;color:#182033}
 .gbar b{display:block;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
-.gbar span{font-family:var(--serif);font-size:1.02rem}
+.gbar span{font-size:.9rem;text-transform:uppercase;font-weight:600}
 .gbar p{font-size:.88rem;margin-top:6px;text-align:left;opacity:.9}
 .gbar.rev{opacity:.85}
 .g0{background:#F2D46B}.g1{background:#A8D672}.g2{background:#9DBBEA}.g3{background:#C9A8E8}
@@ -381,14 +381,41 @@ const BOARDS=[
 ];
 
 const GROUPINGS={
- 4:{title:"Mid-week mini",mistakes:2,groups:[
-   {name:"Says very little",words:["laconic","terse","taciturn","curt"],note:"Laconic is cool and dry, terse and curt can sound rude, and taciturn describes someone who is quiet by habit."},
-   {name:"Talks too much",words:["garrulous","chatty","verbose","wordy"],note:"Garrulous is about talking at length on trivial things. Verbose and wordy are about using more words than needed, in speech or writing."}]},
+ 1:{title:"Daily Groupings",mistakes:4,groups:[
+   {name:"Star ___",words:["fish","trek","dust","light"],note:"Starfish, Star Trek, stardust, starlight."},
+   {name:"Taylor Swift albums",words:["lover","folklore","evermore","midnights"],note:"Lover (2019), folklore and evermore (both 2020), and Midnights (2022)."},
+   {name:"Keeps quiet",words:["reticent","taciturn","reserved","guarded"],note:"Reticent people hold back their thoughts or feelings. Taciturn people simply say little by habit."},
+   {name:"How someone handles money",words:["parsimonious","profligate","frugal","thrifty"],note:"A tricky one: parsimonious (stingy) and profligate (wasteful) are opposites, but both describe money habits."}]},
+ 2:{title:"Daily Groupings",mistakes:4,groups:[
+   {name:"Pixar movies",words:["up","cars","coco","soul"],note:"All four are Pixar films."},
+   {name:"Finish the famous line",words:["vici","brute","cast","am"],note:"\"Veni, vidi, vici,\" \"Et tu, Brute?\" and \"The die is cast\" all trace back to Julius Caesar. \"I think, therefore I am\" is Descartes."},
+   {name:"Says very little",words:["laconic","terse","curt","pithy"],note:"Laconic is cool and dry, curt can sound rude, and pithy means brief but full of meaning."},
+   {name:"Talks too much",words:["garrulous","chatty","verbose","wordy"],note:"Garrulous means talking at length about trivial things. Verbose and wordy are about using more words than needed."}]},
+ 3:{title:"Daily Groupings",mistakes:4,groups:[
+   {name:"Beatles songs",words:["yesterday","help","something","michelle"],note:"All four are Beatles songs."},
+   {name:"Changes on a whim",words:["capricious","fickle","erratic","mercurial"],note:"Capricious changes come with no apparent reason. Mercurial suggests quick, lively shifts of mood."},
+   {name:"Too eager to please",words:["obsequious","sycophantic","fawning","servile"],note:"Obsequious is too eager to obey, while sycophantic flatters the powerful to win favor."},
+   {name:"Not telling the truth",words:["mendacious","dishonest","deceitful","untruthful"],note:"Mendacious describes a habit of lying, not just a single fib."}]},
+ 4:{title:"Daily Groupings",mistakes:4,groups:[
+   {name:"Breakfast foods",words:["pancake","toast","omelet","cereal"],note:"Did waffle tempt you? It belonged with the dodgers."},
+   {name:"Best Picture winners",words:["titanic","gladiator","rocky","casablanca"],note:"All four won the Academy Award for Best Picture."},
+   {name:"Avoid a straight answer",words:["equivocate","hedge","dodge","waffle"],note:"To equivocate is to speak vaguely on purpose. To waffle is to keep going back and forth."},
+   {name:"Refuses to compromise",words:["intransigent","unyielding","adamant","inflexible"],note:"Intransigent is the strongest of these: no movement at all, especially in a dispute."}]},
+ 5:{title:"Daily Groupings",mistakes:4,groups:[
+   {name:"Shakespeare plays",words:["hamlet","macbeth","othello","tempest"],note:"All four are Shakespeare plays (the last is The Tempest)."},
+   {name:"Weighs the risks",words:["circumspect","cautious","wary","prudent"],note:"Circumspect literally means looking around: checking every angle before acting."},
+   {name:"Mocking",words:["sardonic","wry","snide","derisive"],note:"Sardonic mockery is grim and cynical. Wry is the gentlest of the four."},
+   {name:"Resists control",words:["recalcitrant","unruly","defiant","rebellious"],note:"Recalcitrant comes from kicking back with the heels, like a mule that won't be led."}]},
+ 6:{title:"Daily Groupings",mistakes:4,groups:[
+   {name:"Ice cream flavors",words:["chocolate","strawberry","mint","pistachio"],note:"Vanilla looked like it belonged here, but it was hiding in the bland group."},
+   {name:"Michael Jackson hits",words:["thriller","bad","beat it","billie jean"],note:"All four are Michael Jackson hits."},
+   {name:"Bland",words:["anodyne","insipid","bland","vanilla"],note:"Anodyne once meant a painkiller. Now it describes something so inoffensive it's dull."},
+   {name:"Done without real care",words:["perfunctory","cursory","halfhearted","token"],note:"Perfunctory acts are done just to get them over with."}]},
  7:{title:"Weekly finale",mistakes:4,groups:[
-   {name:"Unpredictable",words:["capricious","fickle","erratic","mercurial"],note:"Capricious changes happen on a whim, with no apparent reason. Mercurial suggests quick, lively shifts of mood."},
-   {name:"Mocking",words:["sardonic","derisive","snide","wry"],note:"Sardonic mockery is grim and cynical. Wry is the gentlest of the four, dry rather than cruel."},
+   {name:"Adele albums",words:["19","21","25","30"],note:"Adele's albums are named for her age around the time she made them."},
    {name:"Unbothered",words:["insouciant","nonchalant","carefree","blasé"],note:"Insouciant means free of worry, often when you'd expect some. It's about attitude, not effort."},
-   {name:"Done without real care",words:["perfunctory","cursory","halfhearted","token"],note:"Perfunctory acts are done just to get them over with. Watch the trap: insouciant is not worrying, while perfunctory is not trying."}]}
+   {name:"Changes on a whim",words:["capricious","fickle","erratic","mercurial"],note:"A week later, does capricious feel familiar? That's the ladder working."},
+   {name:"Done without real care",words:["perfunctory","cursory","halfhearted","token"],note:"The trap: insouciant is not worrying, while perfunctory is not trying."}]}
 };
 const CROSS=[["reticent","complacent"],["garrulous","sanguine"],["laconic","capricious"],["obsequious","profligate"],["circumspect","equivocate"],["anodyne","recalcitrant"],["perfunctory","sardonic"]];
 
@@ -594,7 +621,7 @@ function renderHome(){
     h+=`<li class="${r?"done":""}"><span class="num">${r?"✓":i+1}</span><div class="info"><b>${g.name}</b><span>${r?esc(r.summary):g.what+" · "+g.time}</span></div><button data-a="play" data-g="${g.id}">${r?"Replay":"Play"}</button></li>`});
   h+=`</ol>`;
   if(GROUPINGS[d]){const gr=R.groupings;
-    h+=`<div class="bonus"><div class="info"><small>Bonus · ${GROUPINGS[d].title}</small><b>Groupings</b><span>${gr?esc(gr.summary):"Sort this week's words into groups · 2–3 min"}</span></div><button data-a="play" data-g="groupings">${gr?"Replay":"Play"}</button></div>`}
+    h+=`<div class="bonus"><div class="info"><small>Bonus${GROUPINGS[d].title==="Weekly finale"?" · Weekly finale":""}</small><b>Groupings</b><span>${gr?esc(gr.summary):"Your words mixed with trivia · 2–3 min"}</span></div><button data-a="play" data-g="groupings">${gr?"Replay":"Play"}</button></div>`}
   if(doneCount<3)h+=`<button class="btn" data-a="start">${doneCount?(isToday?"Continue today's session":"Continue this day"):(isToday?"Start today's session":"Start this day")}</button>`;
   else{
     h+=`<div class="stack"><button class="btn" data-a="recap">${isToday?"See today's climb":"See Day "+d+" climb"}</button><button class="btn ghost" data-a="calendar">Open calendar</button></div>`;
@@ -949,7 +976,7 @@ function renderGroupings(){
   const g=V.g,B=g.B;
   let h=topbar(true);
   h+=`<div class="status"><span>Groupings · ${B.title}</span><span class="small muted">Mistakes left <span class="mdots">${Array.from({length:B.mistakes},(_,i)=>`<i class="${i<B.mistakes-g.mistakes?"on":""}"></i>`).join("")}</span></span></div>`;
-  if(!g.over&&!g.solved.length)h+=`<p class="muted small" style="margin-bottom:10px">Find ${B.groups.length} groups of four words that share a meaning. Some words look like they belong in two groups.</p>`;
+  if(!g.over&&!g.solved.length)h+=`<p class="muted small" style="margin-bottom:10px">Find ${B.groups.length} groups of four. Some are your words, some are trivia, and a few tiles look like they belong in two groups.</p>`;
   const bars=[...g.solved.map(i=>({i,rev:false})),...g.revealed.map(i=>({i,rev:true}))];
   bars.forEach(({i,rev})=>{const x=B.groups[i];
     h+=`<div class="gbar g${i}${rev?" rev":""}"><b>${esc(x.name)}</b><span>${x.words.join(", ")}</span>${g.over?`<p>${esc(x.note)}</p>`:""}</div>`});
