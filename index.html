@@ -144,10 +144,10 @@ p{margin:0}
 .toggle[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft)}
 .peekbox{background:var(--gold-soft);border-radius:12px;padding:12px 14px;margin-top:10px;font-family:var(--serif);font-size:1.02rem}
 .debrief{margin-top:12px}
-.note{border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line)}
-.note b{font-family:var(--serif);font-size:1.08rem}
-.note.trapnote{border-color:var(--red);background:var(--red-soft)}
-.note p{font-size:.95rem}
+.cnote{border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line)}
+.cnote b{font-family:var(--serif);font-size:1.08rem}
+.cnote.trapnote{border-color:var(--red);background:var(--red-soft)}
+.cnote p{font-size:.95rem}
 .toast{text-align:center;font-weight:600;min-height:1.5em;margin:8px 0}
 
 /* Crossword */
@@ -162,9 +162,6 @@ p{margin:0}
 .cell.rev{color:var(--gold)}
 .cell.wrong{color:var(--red);background:var(--red-soft)}
 .cell.gift{color:var(--gold);background:var(--gold-soft);border-color:var(--gold)}
-.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
-.bw{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;font-family:var(--serif);font-size:1.08rem}
-.bw.usedw{opacity:.3;text-decoration:line-through}
 .cluebar{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px}
 .cluebar .arrow{border:0;background:var(--blue-soft);color:var(--blue);border-radius:10px;width:36px;height:44px;font-weight:700;flex:0 0 auto}
 .cluebar .clue{flex:1;font-family:var(--serif);font-size:1.02rem;line-height:1.35;padding:0 4px}
@@ -245,11 +242,68 @@ button{touch-action:manipulation}
 .gbar p{font-size:.88rem;margin-top:6px;text-align:left;opacity:.9}
 .gbar.rev{opacity:.85}
 .g0{background:#F2D46B}.g1{background:#A8D672}.g2{background:#9DBBEA}.g3{background:#C9A8E8}
+
+/* --- review pass: shared components --- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.app.tabbed{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--surface);border-top:1px solid var(--line);padding:6px 8px env(safe-area-inset-bottom,0px)}
+.tabs-inner{max-width:560px;margin:0 auto;display:flex}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:6px 0 8px;color:var(--muted);font-size:.75rem;font-weight:650}
+.tabs svg{width:24px;height:24px}
+.tabs button[aria-current="page"]{color:var(--blue)}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 6px;margin:14px -2px 0;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.sw{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.swn{font-family:var(--serif);font-size:1.02rem}
+.bars{display:flex;gap:3px}
+.bars i{width:14px;height:7px;border-radius:2px;background:var(--line);transition:background .35s ease,transform .35s ease}
+.bars i.on{background:var(--blue)}
+.bars i.future{background:transparent;border:1px dashed var(--line)}
+.bars.up i.on{background:var(--green)}
+.bars.down i.on{background:var(--red)}
+.bars.up i.on:last-of-type{transform:scaleY(1.4)}
+.result{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 16px 16px;margin:16px 0 12px;text-align:center}
+.result .kicker{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.result .big{font-family:var(--serif);font-size:clamp(2.4rem,11vw,3.2rem);font-weight:500;line-height:1.05;margin:4px 0}
+.result .sub{color:var(--muted)}
+.climb{list-style:none;padding:0;margin:16px 0 4px;text-align:left}
+.climb li{display:flex;align-items:center;gap:10px;padding:8px 2px;border-top:1px solid var(--line)}
+.climb .mw{font-family:var(--serif);font-size:1.12rem;flex:1}
+.up{color:var(--green);font-weight:700}.down{color:var(--red);font-weight:700}.held{color:var(--muted);font-weight:600}
+.sharepre{font:inherit;font-size:1.05rem;line-height:1.4;background:var(--bg);border-radius:12px;padding:10px 12px;margin:14px 0 10px;white-space:pre-wrap;text-align:left}
+.btn.share{background:var(--ink);color:var(--bg)}
+.moves .mw,.lad .wname{font-size:1.2rem}
+.pop{animation:pop2 .45s ease-out}
+@keyframes pop2{0%{transform:scale(.92);box-shadow:0 0 0 0 var(--green)}50%{transform:scale(1.05)}100%{transform:none;box-shadow:0 0 0 8px transparent}}
+.cell.pop{animation:cellflash .6s ease-out}
+@keyframes cellflash{0%{background:var(--green-soft)}100%{}}
+.pulse{animation:pulse 1.2s ease-out}
+@keyframes pulse{0%{transform:scale(.96)}40%{transform:scale(1.04)}100%{transform:none}}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translate(var(--dx),105vh) rotate(var(--rot));opacity:.2}}
+.ob{min-height:calc(100vh - 60px);display:flex;flex-direction:column;gap:18px}
+.obtop{display:flex;justify-content:space-between;align-items:center}
+.obcard{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center}
+.obart{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px 16px}
+.obword{font-family:var(--serif);font-size:clamp(2.6rem,12vw,3.4rem);text-align:center}
+.obbody{font-size:1.05rem;color:var(--muted);max-width:36ch;margin:0 auto}
+.obrungs{list-style:none;padding:0;margin:0}
+.obrungs li{display:flex;justify-content:space-between;align-items:center;padding:7px 4px;font-family:var(--serif);font-size:1.1rem}
+.obgames{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.obgames span{background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:8px 14px;font-weight:650}
+.obdots{display:flex;gap:6px;justify-content:center}
+.obdots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.obdots i.on{background:var(--blue);width:22px;border-radius:4px}
+/* three button tiers: .btn (primary), .btn.ghost (secondary), small pills (tertiary) */
+.session button,.bonus button,.helpers button,.toggle,.chip,.calnav button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-weight:650;font-size:.88rem}
+.calnav button{padding:0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main class="app" id="app" aria-live="polite"></main>
+<main class="app" id="app"></main>
+<div id="live" class="sr" aria-live="polite"></div>
 
 <script>
 /* ============ CONTENT ============ */
@@ -465,6 +519,10 @@ const CLUES=[
 
 /* ============ UTIL ============ */
 const KEY="rung-demo-v1";
+/* ===== SETTINGS: easy switches for the demo ===== */
+const UNLOCK_ALL=false;   // true = every demo day is playable right away; false = one new day each midnight
+const FEEDBACK_URL="";    // paste a Formspree form URL (https://formspree.io/f/xxxxxxx) to collect feedback automatically
+
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -474,17 +532,28 @@ const RUNGS=["Not met","Deduce","Discriminate","Recall","Wield","Survive"];
 function todayStr(){const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
 
 /* ============ STATE ============ */
-function fresh(){const r={};Object.keys(WORDS).forEach(w=>r[w]=CASE_WORDS.includes(w)?0:1);return{v:1,start:Date.now(),rungs:r,results:{},moves:[],fb:{}}}
+const SCHEMA=2;
+function fresh(){const r={};Object.keys(WORDS).forEach(w=>r[w]=CASE_WORDS.includes(w)?0:1);return{v:SCHEMA,start:Date.now(),rungs:r,results:{},moves:[],fb:{},onboarded:false}}
+/* Each migration upgrades saved progress by one version, so players keep their progress when the app changes. */
+const MIGRATIONS={
+  1:s=>{s.onboarded=false;return s}
+};
+function migrate(s){
+  try{while(s&&s.v<SCHEMA){const f=MIGRATIONS[s.v];if(!f)return null;s=f(s);s.v++}return s}catch(e){return null}
+}
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
-if(!S||S.v!==1)S=fresh();
+if(S&&S.v<SCHEMA)S=migrate(S);
+if(!S||S.v!==SCHEMA)S=fresh();
+/* new words added to the content later get a starting rung without wiping progress */
+Object.keys(WORDS).forEach(w=>{if(S.rungs[w]===undefined)S.rungs[w]=CASE_WORDS.includes(w)?0:1});
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const DEV=/[?&]dev\b/.test(location.search);
 function midnight(t){const d=new Date(t);d.setHours(0,0,0,0);return d}
 function dayDate(n){const d=midnight(S.start);d.setDate(d.getDate()+n-1);return d}
 function rawDay(){return Math.round((midnight(Date.now())-midnight(S.start))/864e5)+1}
 function today(){return Math.min(7,Math.max(1,rawDay()))}
-function unlocked(){return DEV?7:today()}
+function unlocked(){return DEV||UNLOCK_ALL?7:today()}
 const fmtDate=(d,o)=>d.toLocaleDateString(undefined,o||{weekday:"long",month:"long",day:"numeric"});
 function dayStatus(n){const r=S.results[n]||{};const L=lineup(n);const c=L.filter(g=>r[g.id]).length;return c===L.length?"done":c?"partial":"none"}
 function res(day){return S.results[day]||(S.results[day]={})}
@@ -498,6 +567,7 @@ function applyMoves(day,game,outcomes,gameRung){
   const out=[];
   for(const o of outcomes){
     const from=S.rungs[o.word]??0;let to=from;
+    if(from===0&&o.result!=="enter")continue; // a word can't pass or fail before its Case has introduced it
     if(o.result==="pass")to=Math.max(from,Math.min(o.rung||gameRung,from+1));
     else if(o.result==="fail")to=Math.max(1,from-1);
     else if(o.result==="enter")to=Math.max(from,1);
@@ -594,10 +664,37 @@ function genCross(day){
 /* ============ RENDER HELPERS ============ */
 const logo=`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="2.4" height="20" rx="1.2" fill="currentColor"/><rect x="16.6" y="2" width="2.4" height="20" rx="1.2" fill="currentColor"/><rect x="6" y="5" width="12" height="2" rx="1" fill="var(--blue)"/><rect x="6" y="10" width="12" height="2" rx="1" fill="var(--blue)"/><rect x="6" y="15" width="12" height="2" rx="1" fill="var(--gold)"/></svg>`;
 function topbar(back){
-  const links=`<div class="topr"><button class="link" data-a="calendar">Calendar</button><button class="link" data-a="ladder">Your ladder</button></div>`;
-  return back?`<div class="top"><button class="back" data-a="home">‹ ${V.day===today()?"Today":"Day "+V.day}</button>${links}</div>`
-             :`<div class="top"><div class="brand">${logo}Rung</div>${links}</div>`;
+  return back?`<div class="top"><button class="back" data-a="home">‹ ${V.day===today()?"Today":"Day "+V.day}</button></div>`
+             :`<div class="top"><div class="brand">${logo}Rung</div></div>`;
 }
+const TAB_SCREENS=["home","calendar","ladder","recap","about","feedback"];
+const ICONS={
+  home:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  calendar:`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  ladder:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2.5v19M17 2.5v19M7 7h10M7 12h10M7 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`
+};
+function tabs(){
+  const cur=V.screen==="calendar"?"calendar":V.screen==="ladder"?"ladder":"home";
+  return`<nav class="tabs" aria-label="Main"><div class="tabs-inner">${[["home","Today"],["calendar","Calendar"],["ladder","Ladder"]].map(([id,l])=>`<button data-a="${id==="home"?"tabhome":id}" ${cur===id?'aria-current="page"':""}>${ICONS[id]}<span>${l}</span></button>`).join("")}</div></nav>`;
+}
+function bars(n,cls){return`<span class="bars ${cls||""}">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":i>3?"future":""}"></i>`).join("")}</span>`}
+/* Result card shared by every game: big verdict, the words that moved, and the share preview. */
+function resultCard(o){
+  const g=V.g,moves=g.moves||[];
+  const latest={};moves.forEach(m=>latest[m.word]=m);
+  const list=Object.values(latest);
+  let climb="";
+  if(list.length){
+    climb=`<ul class="climb">${list.map(m=>{const kind=m.to>m.from?"up":m.to<m.from?"down":"held";
+      const txt=kind==="up"?`↑ ${RUNGS[m.to]}`:kind==="down"?`↓ ${RUNGS[m.to]}`:`Holding at ${RUNGS[m.to]}`;
+      return`<li><span class="mw">${m.word}</span>${bars(g.climbShown?m.to:m.from,`anim" data-to="${m.to}" data-dir="${kind}`)}<span class="${kind} small">${txt}</span></li>`}).join("")}</ul>`;
+  }else if(g.replay)climb=`<p class="muted small" style="margin:10px 0 0">Replays are just for fun, so words don't move.</p>`;
+  return`<section class="result"><p class="kicker">${o.kicker}</p><div class="big">${o.big}</div>${o.sub?`<p class="sub">${o.sub}</p>`:""}${climb}
+    <pre class="sharepre" aria-label="Share preview">${esc(o.share)}</pre>
+    <button class="btn share" data-a="share">Share result</button><div id="shareMsg" class="toast"></div></section>
+    <div class="stack">${nextButton(o.game)}</div>`;
+}
+function buzz(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
 const GAMES=[{id:"case",name:"The Case",rung:1,time:"1–2 min",what:"Work out a mystery word"},
              {id:"codewords",name:"Codewords",rung:2,time:"About 2 min",what:"Find the right words, dodge the trap"},
              {id:"crossword",name:"Mini Crossword",rung:3,time:"2–3 min",what:"Clues built from your words, plus a mystery word"},
@@ -624,6 +721,7 @@ function renderHome(){
   if(!isToday)h+=`<div class="viewing"><span>Replaying Day ${d}, ${fmtDate(dayDate(d),{month:"long",day:"numeric"})}</span><button class="link" data-a="day" data-d="${t}">Back to today</button></div>`;
   h+=`<p class="muted small">${isToday?"Today, "+fmtDate(dayDate(d)):"Day "+d+" of 7"}</p><h1>${doneCount===L.length?"Climb complete":isToday?"Today's climb":"Day "+d+" climb"}</h1>
   <p class="muted" style="margin-top:6px">About 5 minutes. ${dayTargets(d).length} words are ready to climb.</p>`;
+  h+=`<div class="strip" aria-label="Today's words">${dayTargets(d).map(w=>`<button class="sw" data-a="ladder"><span class="swn">${S.rungs[w]?w:"???"}</span>${bars(S.rungs[w])}</button>`).join("")}</div>`;
   h+=`<ol class="session" style="margin-top:18px">`;
   L.forEach((g,i)=>{const r=R[g.id];
     h+=`<li class="${r?"done":""}"><span class="num">${r?"✓":i+1}</span><div class="info"><b>${g.name}</b><span>${r?esc(r.summary):g.what+" · "+g.time}</span></div><button data-a="play" data-g="${g.id}">${r?"Replay":"Play"}</button></li>`});
@@ -647,7 +745,7 @@ function renderCalendar(){
   if(!calMonth)calMonth=new Date(dayDate(t).getFullYear(),dayDate(t).getMonth(),1);
   const y=calMonth.getFullYear(),m=calMonth.getMonth();
   const minM=new Date(first.getFullYear(),first.getMonth(),1),maxM=new Date(last.getFullYear(),last.getMonth(),1);
-  let h=topbar(true)+`<h1>Your calendar</h1><p class="muted" style="margin-top:6px">Tap any past day to replay it. New puzzles unlock each day at midnight.</p>`;
+  let h=topbar(true)+`<h1>Your calendar</h1><p class="muted" style="margin-top:6px">${UNLOCK_ALL||DEV?"Every demo day is open. Tap any day to play it.":"Tap any past day to replay it. New puzzles unlock each day at midnight."}</p>`;
   h+=`<div class="cal"><div class="calhead"><h2>${calMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"})}</h2>`;
   if(minM<maxM)h+=`<div class="calnav"><button data-a="calprev" aria-label="Previous month" ${calMonth<=minM?"disabled":""}>‹</button><button data-a="calnext" aria-label="Next month" ${calMonth>=maxM?"disabled":""}>›</button></div>`;
   h+=`</div><div class="calgrid">`;
@@ -695,13 +793,11 @@ function renderCase(){
   }else{
     h+=`<div class="suspects">`;
     g.order.forEach(i=>{h+=`<button class="suspect ${i===0?"right":""}" disabled>${esc(c.sus[i])}</button>`});
-    h+=`</div><p class="verdict">${g.result==="cold"?"Cold case":CASE_LABELS[g.ev]}</p>
-    <p class="muted" style="text-align:center">${g.result==="cold"?"This one got away, but now you know it.":`Case closed with ${g.ev} piece${g.ev>1?"s":""} of evidence.`}</p>
-    <div class="reveal"><div class="def">${esc(WORDS[c.word].def)}</div>
+    h+=`</div><div class="reveal"><div class="def">${esc(WORDS[c.word].def)}</div>
       <h3>The story</h3><p class="body">${esc(c.story)}</p>
       <h3>Relatives</h3><p class="body">${esc(c.sibs)}</p>
-      <h3>Use it well</h3><p class="body">${esc(c.usage)}</p></div>
-    <div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("case")}</div>`;
+      <h3>Use it well</h3><p class="body">${esc(c.usage)}</p></div>`;
+    h+=resultCard({game:"case",kicker:`The Case #${V.day}`,big:g.result==="cold"?"Cold case":CASE_LABELS[g.ev],sub:g.result==="cold"?"This one got away, but now you know it.":`Closed with ${g.ev} piece${g.ev>1?"s":""} of evidence`,share:caseShare()});
   }
   g.fresh=false;
   return h;
@@ -711,7 +807,8 @@ function finishCase(result){
   const g=V.g;g.done=true;g.result=result;
   const label=result==="cold"?"Cold case":CASE_LABELS[g.ev];
   const w=CASES[V.day-1].word;
-  const moves=applyMoves(V.day,"case",[{word:w,result:"enter"}],1);
+  const moves=applyMoves(V.day,"case",[{word:w,result:"enter"}],1);g.moves=moves;g.replay=!moves.length;
+  buzz(result==="cold"?[20,40,20]:15);
   if(!res(V.day).case||moves.length)res(V.day).case={summary:`${label} · ${w}`};
   save();
 }
@@ -729,9 +826,9 @@ function renderCodewords(){
   h+=`<div class="tiles">`;
   g.tiles.forEach(t=>{const st=g.state[t]||"";
     const cls=st==="hit"?"hit":st==="trap"?"trap":st==="shown"?"shown":st==="used"?"used":"";
-    h+=`<button class="tile ${cls} ${g.shake===t?"shake":""}" data-a="tile" data-t="${t}" ${(st||g.phase!=="play")&&!g.peek?"disabled":""}>${t}</button>`});
+    h+=`<button class="tile ${cls} ${g.shake===t?"shake":""} ${g.flash===t?"pop":""}" data-a="tile" data-t="${t}" ${(st||g.phase!=="play")&&!g.peek?"disabled":""}>${t}</button>`});
   h+=`</div>`;
-  g.shake=null;
+  g.shake=null;g.flash=null;
   if(g.phase==="play"){
     h+=`<div class="tools"><button class="toggle" data-a="peek" aria-pressed="${g.peek}">${g.peek?"Peek on: tap a word":"Peek at a word"}</button><span class="muted small">Peeking is free, but a peeked word can't climb today.</span></div>`;
     if(g.peekText)h+=`<div class="peekbox">${g.peekText}</div>`;
@@ -740,9 +837,10 @@ function renderCodewords(){
     h+=`<div class="debrief">`;
     const rr=g.results[g.results.length-1];
     h+=`<p class="toast">${rr==="clean"?"Clean sweep.":rr==="wobble"?"Got there, with a stumble.":rr==="trap"?"The double agent got you.":"Out of lives."}</p>`;
-    [...rd.a,rd.t].forEach(w=>{h+=`<div class="note ${w===rd.t?"trapnote":""}"><b>${w}</b>${w===rd.t?" · the trap":""}<p>${esc(b.notes[w])}</p></div>`});
+    [...rd.a,rd.t].forEach(w=>{h+=`<div class="cnote ${w===rd.t?"trapnote":""}"><b>${w}</b>${w===rd.t?" · the trap":""}<p>${esc(b.notes[w])}</p></div>`});
     if(g.over){
-      h+=`<div class="stack" style="margin-top:14px"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("codewords")}</div>`;
+      const clean=g.results.filter(x=>x==="clean").length;
+      h+=resultCard({game:"codewords",kicker:`Codewords · Day ${V.day}`,big:`${clean} of 3`,sub:`signals cleared clean · ${g.lives} ${g.lives===1?"life":"lives"} left`,share:cwShare()});
     }else h+=`<button class="btn" data-a="nextround">Next signal</button>`;
     h+=`</div>`;
   }
@@ -757,12 +855,12 @@ function tapTile(t){
   g.peekText="";
   if(g.state[t])return;
   if(rd.a.includes(t)){
-    g.state[t]="hit";g.found.push(t);
+    g.state[t]="hit";g.found.push(t);g.flash=t;buzz(10);
     if(rd.a.every(w=>g.state[w]==="hit"))endRound(g.roundLives?"wobble":"clean");
   }else if(t===rd.t){
-    g.state[t]="trap";rd.a.forEach(w=>{if(!g.state[w])g.state[w]="shown"});endRound("trap");
+    buzz([30,50,30]);g.state[t]="trap";rd.a.forEach(w=>{if(!g.state[w])g.state[w]="shown"});endRound("trap");
   }else{
-    g.lives--;g.roundLives++;g.shake=t;
+    g.lives--;g.roundLives++;g.shake=t;buzz([20,40,20]);
     if(g.lives<=0){rd.a.forEach(w=>{if(!g.state[w])g.state[w]="shown"});endRound("lost")}
     else setTimeout(()=>{const el=$("#cwToast");if(el)el.textContent="Not that one. It doesn't fit this signal."},10);
   }
@@ -786,7 +884,7 @@ function finishCodewords(){
     rd.a.forEach(w=>{if(!WORDS[w])return;if(g.peeked.has(w))outs.push({word:w,result:"none"});else outs.push({word:w,result:g.found.includes(w)?"pass":"fail"})});
     if(WORDS[rd.t]){const w=rd.t;if(g.peeked.has(w))outs.push({word:w,result:"none"});else outs.push({word:w,result:(rr==="clean"||rr==="wobble")?"pass":"fail"})}
   });
-  applyMoves(V.day,"codewords",outs,2);
+  g.moves=applyMoves(V.day,"codewords",outs,2);g.replay=!g.moves.length;
   const clean=g.results.filter(x=>x==="clean").length;
   res(V.day).codewords={summary:`${clean} of 3 signals clean · ${g.lives} ${g.lives===1?"life":"lives"} left`,share:g.results.slice()};
   save();
@@ -796,6 +894,7 @@ function cwShare(){const m={clean:"🟩",wobble:"🟨",trap:"🟥",lost:"⬛"};r
 /* --- Mini Crossword --- */
 function startCrossword(){
   const P=genCross(V.day),r=rng(V.day*53+11);
+  if(!P){V.g={type:"crossword",error:true,phase:"error"};return}
   const stats={};P.entries.forEach(e=>stats[e.id]={fails:0,reveals:0,revealed:false});
   const inGrid=new Set(P.entries.map(e=>e.word)),lens=new Set(P.entries.map(e=>e.word.length));
   const decoys=shuffle([...new Set(CLUES.map(x=>x.a))].filter(a=>!inGrid.has(a)&&lens.has(a.length)),r).slice(0,2);
@@ -808,7 +907,7 @@ function entryAt(cell,dir){return V.g.P.entries.find(e=>e.dir===dir&&e.cells.inc
 function curEntry(){return V.g.P.entries.find(e=>e.id===V.g.entry)}
 function entrySolved(e){return e.cells.every(c=>V.g.locked[c])}
 function entriesWith(cell){return V.g.P.entries.filter(e=>e.cells.includes(cell))}
-function lockEntry(e){const g=V.g;e.cells.forEach(c=>{g.letters[c]=g.P.cells[c];g.locked[c]=true;delete g.wrong[c]});g.used[e.word]=true}
+function lockEntry(e){const g=V.g;g.flash=g.flash||{};e.cells.forEach(c=>{g.letters[c]=g.P.cells[c];g.locked[c]=true;delete g.wrong[c];g.flash[c]=true});g.used[e.word]=true;buzz(10)}
 function selectNextOpen(){
   const g=V.g,es=g.P.entries,i=es.findIndex(x=>x.id===g.entry);
   for(let k=1;k<=es.length;k++){const n=es[(i+k)%es.length];if(!entrySolved(n)){g.entry=n.id;g.dir=n.dir;g.sel=n.cells.find(c=>!g.locked[c])||n.cells[0];return}}
@@ -819,7 +918,7 @@ function autoCheck(cell){
     if(entrySolved(e)||e.cells.some(c=>!g.letters[c]))return;
     const bad=e.cells.filter(c=>g.letters[c]!==g.P.cells[c]);
     if(!bad.length){lockEntry(e);solvedAny=true;g.msg=`${e.word.toLowerCase()} ✓`}
-    else{bad.forEach(c=>g.wrong[c]=true);g.stats[e.id].fails++;g.msg=g.stats[e.id].fails===1?"Not quite. Think about what the clue's key word means.":"Still not it. Try a reveal if you're stuck."}
+    else{bad.forEach(c=>g.wrong[c]=true);g.stats[e.id].fails++;buzz([20,40,20]);g.msg=g.stats[e.id].fails===1?"Not quite. Think about what the clue's key word means.":"Still not it. Try a reveal if you're stuck."}
   });
   return solvedAny;
 }
@@ -879,7 +978,7 @@ function finishCrossword(){
     if(s.revealed||s.fails>1)return{word:e.w,result:"fail"};if(s.reveals>0)return{word:e.w,result:"none"};return{word:e.w,result:"pass"}});
   let mr="none";if(m.gaveUp||m.tries>2)mr="fail";else if(m.tries<=1&&!m.hint)mr="pass";
   outs.push({word:g.P.mystery,result:mr,rung:3});
-  applyMoves(V.day,"crossword",outs,2);
+  g.moves=applyMoves(V.day,"crossword",outs,2);g.replay=!g.moves.length;buzz(m.gaveUp?10:[15,30,15]);
   const secs=Math.round((g.end-g.start)/1000);
   res(V.day).crossword={summary:`Solved in ${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")} · mystery word ${m.gaveUp?"revealed":"found"}`};
   save();
@@ -896,13 +995,16 @@ function renderGrid(){
     if(g.phase==="grid"&&key===g.sel)cls.push("sel");
     if(g.revealed[key])cls.push("rev");else if(g.locked[key])cls.push("lock");
     if(g.wrong[key])cls.push("wrong");
+    if(g.flash&&g.flash[key])cls.push("pop");
     if(shade.has(key))cls.push(g.phase==="grid"?"shade":"shade glow");
     const n=P.nums[key];
     h+=`<button class="${cls.join(" ")}" data-a="cell" data-k="${key}" aria-label="Row ${r+1} column ${c+1}${shade.has(key)?", circled":""}">${n?`<span class="n">${n}</span>`:""}${g.letters[key]||""}</button>`;
   }
+  g.flash=null;
   return h+`</div></div>`;
 }
 function renderCrossword(){
+  if(V.g.error)return topbar(true)+`<div class="card" style="margin-top:10px"><b>This puzzle couldn't be built today.</b><p class="muted" style="margin-top:6px">Something went wrong putting the grid together. The rest of today's games still work.</p></div><div class="stack" style="margin-top:14px">${nextButton("crossword")}</div>`;
   const g=V.g,P=g.P,e=curEntry(),m=g.mys;
   let h=topbar(true);
   h+=`<div class="status"><span>Mini Crossword · Day ${V.day}</span><span class="muted small">${g.phase==="grid"?`${P.entries.filter(entrySolved).length} of ${P.entries.length} solved`:"Grid complete"}</span></div>`;
@@ -933,10 +1035,9 @@ function renderCrossword(){
     m.shake=false;
   }else{
     const secs=Math.round((g.end-g.start)/1000),mm=Math.floor(secs/60),ss=String(secs%60).padStart(2,"0");
-    h+=`<p class="verdict">${m.gaveUp?"Puzzle complete":"Mystery solved"}</p><p class="muted" style="text-align:center">${mm}:${ss}</p>
-    <div class="reveal"><h3>Mystery word</h3><p class="body"><b>${P.mystery}</b>: ${esc(WORDS[P.mystery].def)}</p>
-    <h3>Words hiding in today's clues</h3>${P.entries.map(x=>`<p class="body" style="margin-bottom:6px"><b>${x.w}</b> led you to <i>${x.word.toLowerCase()}</i>. ${esc(WORDS[x.w].def)}</p>`).join("")}</div>
-    <div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("crossword")}</div>`;
+    h+=resultCard({game:"crossword",kicker:`Mini Crossword · Day ${V.day}`,big:`${mm}:${ss}`,sub:m.gaveUp?`Mystery word revealed: ${P.mystery}`:`Mystery word found: ${P.mystery}`,share:crossShare()});
+    h+=`<div class="reveal"><h3>Mystery word</h3><p class="body"><b>${P.mystery}</b>: ${esc(WORDS[P.mystery].def)}</p>
+    <h3>Words hiding in today's clues</h3>${P.entries.map(x=>`<p class="body" style="margin-bottom:6px"><b>${x.w}</b> led you to <i>${x.word.toLowerCase()}</i>. ${esc(WORDS[x.w].def)}</p>`).join("")}</div>`;
   }
   return h;
 }
@@ -959,11 +1060,11 @@ function gSubmit(){
   g.seen.push(key);g.guesses.push(g.sel.map(groupOf));
   const gi=groupOf(g.sel[0]);
   if(g.sel.every(w=>groupOf(w)===gi)){
-    g.solved.push(gi);g.tiles=g.tiles.filter(w=>!g.sel.includes(w));g.sel=[];g.msg="";
+    g.solved.push(gi);g.tiles=g.tiles.filter(w=>!g.sel.includes(w));g.sel=[];g.msg="";g.flash=gi;buzz(15);
     if(g.solved.length===B.groups.length)finishGroupings(true);
     return;
   }
-  g.mistakes++;g.shake=true;
+  g.mistakes++;g.shake=true;buzz([20,40,20]);
   const counts={};g.sel.forEach(w=>counts[groupOf(w)]=(counts[groupOf(w)]||0)+1);
   const best=Math.max(...Object.values(counts));
   g.msg=best===3?"One away…":"Not a group.";
@@ -976,7 +1077,7 @@ function finishGroupings(won){
   const g=V.g,B=g.B;g.over=true;g.won=won;
   const outs=[];
   B.groups.forEach((x,i)=>x.words.forEach(w=>{if(WORDS[w])outs.push({word:w,result:g.solved.includes(i)?"pass":"fail"})}));
-  applyMoves(V.day,"groupings",outs,2);
+  g.moves=applyMoves(V.day,"groupings",outs,2);g.replay=!g.moves.length;
   res(V.day).groupings={summary:won?`Solved with ${g.mistakes} mistake${g.mistakes===1?"":"s"}`:`${g.solved.length} of ${B.groups.length} groups found`};
   save();
 }
@@ -987,15 +1088,15 @@ function renderGroupings(){
   if(!g.over&&!g.solved.length)h+=`<p class="muted small" style="margin-bottom:10px">Find ${B.groups.length} groups of four. Some are your words, some are trivia, and a few tiles look like they belong in two groups.</p>`;
   const bars=[...g.solved.map(i=>({i,rev:false})),...g.revealed.map(i=>({i,rev:true}))];
   bars.forEach(({i,rev})=>{const x=B.groups[i];
-    h+=`<div class="gbar g${i}${rev?" rev":""}"><b>${esc(x.name)}</b><span>${x.words.join(", ")}</span>${g.over?`<p>${esc(x.note)}</p>`:""}</div>`});
+    h+=`<div class="gbar g${i}${rev?" rev":""}${g.flash===i?" pop":""}"><b>${esc(x.name)}</b><span>${x.words.join(", ")}</span>${g.over?`<p>${esc(x.note)}</p>`:""}</div>`});
   if(!g.over){
     h+=`<div class="gtiles ${g.shake?"shake":""}">${g.tiles.map(w=>`<button class="gt" data-a="gtile" data-w="${esc(w)}" aria-pressed="${g.sel.includes(w)}">${esc(w)}</button>`).join("")}</div>`;
     h+=`<div class="toast">${esc(g.msg)}</div>`;
     h+=`<div class="row"><button class="btn ghost" data-a="gshuffle">Shuffle</button><button class="btn ghost" data-a="gclear" ${g.sel.length?"":"disabled"}>Deselect</button><button class="btn" data-a="gsubmit" ${g.sel.length===4?"":"disabled"}>Submit</button></div>`;
-    g.shake=false;
+    g.shake=false;g.flash=null;
   }else{
-    h+=`<p class="verdict" style="margin-top:12px">${g.won?(g.mistakes?"Solved":"Perfect"):"Nice try"}</p>`;
-    h+=`<div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("groupings")}</div>`;
+    g.flash=null;
+    h+=resultCard({game:"groupings",kicker:`Groupings · Day ${V.day}`,big:g.won?(g.mistakes?"Solved":"Perfect"):"Nice try",sub:g.won?`${g.mistakes} mistake${g.mistakes===1?"":"s"}`:`${g.solved.length} of ${B.groups.length} groups found`,share:grShare()});
   }
   return h;
 }
@@ -1009,9 +1110,15 @@ function nextButton(game){
   const nx=L.slice(i+1).find(g=>!res(V.day)[g.id]);
   return nx?`<button class="btn" data-a="play" data-g="${nx.id}" data-flow="1">Next: ${nx.name}</button>`:`<button class="btn" data-a="recap">See today's climb</button>`;
 }
+function confetti(){
+  const cols=["var(--blue)","var(--gold)","var(--green)","#C9A8E8","#F2D46B"];
+  return`<div class="confetti" aria-hidden="true">${Array.from({length:28},(_,i)=>`<i style="left:${(i*37)%100}%;background:${cols[i%5]};animation-delay:${(i%7)*.06}s;--dx:${((i*53)%60)-30}px;--rot:${(i*97)%360}deg"></i>`).join("")}</div>`;
+}
 function renderRecap(){
-  const moves=S.moves.filter(m=>m.day===V.day);
-  let h=topbar(true)+`<h1>Day ${V.day} climb</h1><p class="muted" style="margin-top:6px">Here's how your words moved today. Words climb one rung per game, and a miss sends a word down one rung.</p>`;
+  const moves=S.moves.filter(m=>m.day===V.day),complete=dayStatus(V.day)==="done";
+  let h=topbar(true);
+  if(complete&&V.confetti!==V.day){V.confetti=V.day;h+=confetti();buzz([15,30,15,30,40])}
+  h+=`<h1 class="${complete?"pulse":""}">${complete?"Climb complete!":"Day "+V.day+" climb"}</h1><p class="muted" style="margin-top:6px">Here's how your words moved today. Words climb one rung per game, and a miss sends a word down one rung.</p>`;
   if(!moves.length)h+=`<div class="card" style="margin-top:14px">No words have moved yet today. Play a game to start climbing.</div>`;
   else{
     const latest={};moves.forEach(m=>latest[m.word+"|"+m.game]=m);
@@ -1019,7 +1126,7 @@ function renderRecap(){
     Object.values(latest).forEach(m=>{
       const kind=m.to>m.from?"up":m.to<m.from?"down":"held";
       const txt=kind==="up"?`↑ ${RUNGS[m.to]}`:kind==="down"?`↓ ${RUNGS[m.to]}`:`Holding at ${RUNGS[m.to]}`;
-      h+=`<li><span class="mw">${m.word}</span><span class="muted small">${(gameById(m.game)||{name:"Game"}).name}</span><span class="${kind}">${txt}</span></li>`});
+      h+=`<li><span class="mw">${m.word}</span>${bars(m.to)}<span class="${kind} small">${txt}</span></li>`});
     h+=`</ul>`;
   }
   h+=`<div class="stack" style="margin-top:14px">${extras(V.day).filter(g=>!res(V.day)[g.id]).map(g=>`<button class="btn" data-a="play" data-g="${g.id}">Want more? Play ${g.name}</button>`).join("")}<button class="btn ${extras(V.day).some(g=>!res(V.day)[g.id])?"ghost":""}" data-a="ladder">See your whole ladder</button><button class="btn ghost" data-a="calendar">Open calendar</button><button class="btn ghost" data-a="feedback">Give feedback</button></div>`;
@@ -1039,8 +1146,8 @@ function renderAbout(){
   <p class="body">Rung helps you build a stronger vocabulary with a few minutes of games a day. You don't learn a word by seeing it once, so every word comes back to you in harder and harder ways until it's truly yours.</p>
   <h3>The ladder</h3><p class="body">Each word climbs five rungs: Deduce (work out its meaning), Discriminate (tell it apart from near misses), Recall (produce it yourself), Wield (use it in your own words), and Survive (remember it weeks later). Miss one, and the word slips back a rung to try again.</p>
   <h3>Your daily session</h3><p class="body">The Case is a mystery word everyone plays each day. Two more games join it, and the lineup changes daily: Codewords, the Mini Crossword, and Groupings take turns bringing back words you've met before. Together they take about five minutes, and the game left out is there as an extra if you want more.</p>
-  <h3>About this demo</h3><p class="body">This is a 7-day test with 20 words and the first three rungs. All seven days are unlocked so you can play at your own pace, but the real app releases one day at a time. Your progress is saved on this device only.</p></div>
-  <button class="btn" data-a="feedback">Give feedback</button>`;
+  <h3>About this demo</h3><p class="body">This is a 7-day test with 20 words and the first three rungs. ${UNLOCK_ALL||DEV?"All seven days are unlocked so you can play at your own pace, but the real app releases one":"A new day unlocks each midnight, and you can replay earlier days from the calendar. The real app works the same way, releasing one"} day at a time. Your progress is saved on this device only.</p></div>
+  <div class="stack"><button class="btn" data-a="feedback">Give feedback</button><button class="btn ghost" data-a="obreplay">See the intro again</button></div>`;
 }
 const FBQ=[{k:"feel",q:"Did the games feel more like play or like a test?",opts:["Play","Somewhere between","A test"]},
            {k:"fav",q:"Which game did you enjoy most?",opts:["The Case","Codewords","Mini Crossword","Groupings"]},
@@ -1053,7 +1160,7 @@ function renderFeedback(){
   FBQ.forEach(f=>{h+=`<label ${f.text?`for="fb-${f.k}"`:""}>${f.q}</label>`;
     if(f.text)h+=`<textarea id="fb-${f.k}" data-fb="${f.k}">${esc(S.fb[f.k]||"")}</textarea>`;
     else h+=`<div class="chips">${f.opts.map(o=>`<button class="chip" data-a="fbchip" data-k="${f.k}" data-v="${o}" aria-pressed="${S.fb[f.k]===o}">${o}</button>`).join("")}</div>`});
-  h+=`</div><div class="stack" style="margin-top:18px"><button class="btn" data-a="copyfb">Copy my feedback</button><div id="fbMsg"></div></div>`;
+  h+=`</div><div class="stack" style="margin-top:18px">${FEEDBACK_URL?`<button class="btn" data-a="sendfb">Send my feedback</button><button class="btn ghost" data-a="copyfb">Copy instead</button>`:`<button class="btn" data-a="copyfb">Copy my feedback</button>`}<div id="fbMsg"></div></div>`;
   return h;
 }
 function fbText(){
@@ -1064,10 +1171,30 @@ function fbText(){
   return lines.join("\n");
 }
 
+/* --- Onboarding --- */
+const OB=[
+  {t:"Words that stick",b:"Rung is a few minutes of word games a day. You don't learn a word by seeing it once, so your words keep coming back in harder and harder ways until they're yours.",art:()=>`<div class="obword">sanguine</div><p class="muted" style="text-align:center">calmly optimistic, even when things look bad</p>`},
+  {t:"Climb the ladder",b:"Every word climbs five rungs. Get it right and it steps up. Miss it and it slips back to try again.",art:()=>`<ul class="obrungs">${RUNGS.slice(1).map((r,i)=>`<li><span>${r}</span>${bars(i+1)}</li>`).join("")}</ul>`},
+  {t:"Five minutes a day",b:()=>`Each day brings The Case plus two games that change daily. ${UNLOCK_ALL||DEV?"All seven demo days are open, so play at your own pace.":"A new day unlocks every midnight."}`,art:()=>`<div class="obgames">${GAMES.map(g=>`<span>${g.name}</span>`).join("")}</div>`}
+];
+function renderOnboard(){
+  const i=V.ob||0,c=OB[i],body=typeof c.b==="function"?c.b():c.b;
+  return`<div class="ob" data-swipe="1"><div class="obtop"><div class="brand">${logo}Rung</div>${i<OB.length-1?`<button class="link" data-a="obdone">Skip</button>`:""}</div>
+  <div class="obcard" aria-live="polite"><div class="obart">${c.art()}</div><h1>${c.t}</h1><p class="obbody">${body}</p></div>
+  <div class="obdots" aria-hidden="true">${OB.map((_,k)=>`<i class="${k===i?"on":""}"></i>`).join("")}</div>
+  <div class="row">${i>0?`<button class="btn ghost" data-a="obprev">Back</button>`:""}<button class="btn" data-a="${i<OB.length-1?"obnext":"obdone"}">${i<OB.length-1?"Next":"Get started"}</button></div></div>`;
+}
+
 /* ============ MAIN ============ */
+let lastSpoken="";
+function announce(t){const el=$("#live");if(!el||!t||t===lastSpoken)return;lastSpoken=t;el.textContent="";setTimeout(()=>{el.textContent=t},40)}
+function focusKey(el){if(!el||!el.dataset||!el.dataset.a)return null;return Object.entries(el.dataset).map(([k,v])=>`[data-${k.replace(/[A-Z]/g,m=>"-"+m.toLowerCase())}="${typeof CSS!=="undefined"&&CSS.escape?CSS.escape(v):v}"]`).join("")}
 function render(){
   const app=$("#app");let h="";
+  if(!S.onboarded&&V.screen==="home")V.screen="onboard";
+  const fk=app.contains(document.activeElement)?focusKey(document.activeElement):null;
   switch(V.screen){
+    case"onboard":h=renderOnboard();break;
     case"home":h=renderHome();break;
     case"case":h=renderCase();break;
     case"codewords":h=renderCodewords();break;
@@ -1079,14 +1206,34 @@ function render(){
     case"about":h=renderAbout();break;
     case"feedback":h=renderFeedback();break;
   }
+  const tabbed=TAB_SCREENS.includes(V.screen);
+  if(tabbed)h+=tabs();
   app.innerHTML=h;
   app.classList.toggle("docked",V.screen==="crossword"&&V.g&&V.g.phase==="grid");
+  app.classList.toggle("tabbed",tabbed);
+  if(fk){try{const el=app.querySelector(fk);if(el&&!el.disabled)el.focus({preventScroll:true})}catch(e){}}
+  const g=V.g;
+  if(g&&!TAB_SCREENS.includes(V.screen))announce(g.msg||(g.mys&&g.mys.msg)||"");
+  /* animate the words climbing on result cards, once */
+  const climbs=app.querySelectorAll(".bars.anim");
+  if(climbs.length&&g&&!g.climbShown){
+    g.climbShown=true;
+    setTimeout(()=>{climbs.forEach((b,k)=>{setTimeout(()=>{const to=+b.dataset.to;b.classList.add(b.dataset.dir);[...b.children].forEach((i,n)=>i.classList.toggle("on",n<to))},k*160)})},350);
+  }
 }
-function go(screen){V.screen=screen;render();window.scrollTo(0,0)}
+function go(screen){V.screen=screen;render();window.scrollTo(0,0);const t=document.querySelector("#app h1");if(t)announce(t.textContent)}
 function play(id,flow){
   V.flow=!!flow;
   if(id==="case")startCase();else if(id==="codewords")startCodewords();else if(id==="groupings")startGroupings();else startCrossword();
   go(id);
+}
+async function sendFeedback(){
+  const el=$("#fbMsg");if(el)el.innerHTML=`<p class="muted small">Sending…</p>`;
+  try{
+    const r=await fetch(FEEDBACK_URL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({message:fbText(),...S.fb})});
+    if(!r.ok)throw new Error(r.status);
+    if(el)el.innerHTML=`<div class="copied">Sent. Thank you!</div>`;
+  }catch(e){if(el)el.innerHTML=`<p class="small muted">Couldn't send right now. You can copy your answers instead.</p>`}
 }
 async function copy(text,target,okMsg){
   let ok=false;
@@ -1104,6 +1251,12 @@ document.addEventListener("click",e=>{
   if(a!=="reset")resetArmed=false;
   switch(a){
     case"home":go("home");break;
+    case"tabhome":V.day=today();go("home");break;
+    case"obnext":V.ob=(V.ob||0)+1;render();break;
+    case"obprev":V.ob=Math.max(0,(V.ob||0)-1);render();break;
+    case"obreplay":V.ob=0;go("onboard");break;
+    case"obdone":S.onboarded=true;save();V.ob=0;go("home");break;
+    case"sendfb":sendFeedback();break;
     case"ladder":go("ladder");break;
     case"about":go("about");break;
     case"feedback":go("feedback");break;
@@ -1118,7 +1271,7 @@ document.addEventListener("click",e=>{
       S=fresh();save();V.day=today();resetArmed=false;go("home");break;
     case"accuse":{const g=V.g,i=+b.dataset.i;
       if(i===0){finishCase("solved")}
-      else{g.elim.push(i);if(g.ev<4){g.ev++;g.fresh=true}else finishCase("cold")}
+      else{g.elim.push(i);buzz([20,40,20]);if(g.ev<4){g.ev++;g.fresh=true;g.msg="Not that one. New evidence revealed."}else finishCase("cold")}
       render();break}
     case"evidence":if(V.g.ev<4){V.g.ev++;V.g.fresh=true;render()}break;
     case"share":{
@@ -1153,6 +1306,10 @@ document.addEventListener("click",e=>{
     case"copyfb":copy(fbText(),"#fbMsg","Copied. Paste it into a text or email to send it back.");break;
   }
 });
+let swX=null;
+document.addEventListener("touchstart",e=>{if(V.screen==="onboard")swX=e.touches[0].clientX},{passive:true});
+document.addEventListener("touchend",e=>{if(V.screen!=="onboard"||swX===null)return;const dx=e.changedTouches[0].clientX-swX;swX=null;
+  if(dx<-50&&(V.ob||0)<OB.length-1){V.ob=(V.ob||0)+1;render()}else if(dx>50&&(V.ob||0)>0){V.ob--;render()}},{passive:true});
 document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.fb;if(k){S.fb[k]=e.target.value;save()}});
 document.addEventListener("keydown",e=>{
   if(V.screen!=="crossword"||!V.g||V.g.phase!=="grid"||V.g.mode!=="keys"||e.metaKey||e.ctrlKey||e.altKey)return;
