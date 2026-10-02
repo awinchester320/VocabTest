@@ -226,6 +226,7 @@ button{touch-action:manipulation}
 .bw.usedw{opacity:.3;text-decoration:line-through}
 @media (max-width:380px){.slot{width:24px}.ltile{width:36px;height:42px}}
 
+.xlabel{font-size:.8rem;font-weight:700;color:var(--muted);margin:4px 0 8px}
 .bonus{display:flex;align-items:center;gap:14px;border:1.5px dashed var(--gold);background:var(--gold-soft);border-radius:16px;padding:14px;margin:0 0 16px}
 .bonus .info{flex:1;min-width:0}
 .bonus small{display:block;font-size:.76rem;font-weight:700;color:var(--gold)}
@@ -485,7 +486,7 @@ function rawDay(){return Math.round((midnight(Date.now())-midnight(S.start))/864
 function today(){return Math.min(7,Math.max(1,rawDay()))}
 function unlocked(){return DEV?7:today()}
 const fmtDate=(d,o)=>d.toLocaleDateString(undefined,o||{weekday:"long",month:"long",day:"numeric"});
-function dayStatus(n){const r=S.results[n]||{};const c=GAMES.filter(g=>r[g.id]).length;return c===GAMES.length?"done":c?"partial":"none"}
+function dayStatus(n){const r=S.results[n]||{};const L=lineup(n);const c=L.filter(g=>r[g.id]).length;return c===L.length?"done":c?"partial":"none"}
 function res(day){return S.results[day]||(S.results[day]={})}
 
 let V={screen:"home",day:today(),flow:false,g:null};
@@ -599,30 +600,37 @@ function topbar(back){
 }
 const GAMES=[{id:"case",name:"The Case",rung:1,time:"1–2 min",what:"Work out a mystery word"},
              {id:"codewords",name:"Codewords",rung:2,time:"About 2 min",what:"Find the right words, dodge the trap"},
-             {id:"crossword",name:"Mini Crossword",rung:3,time:"2–3 min",what:"Clues built from your words, plus a mystery word"}];
+             {id:"crossword",name:"Mini Crossword",rung:3,time:"2–3 min",what:"Clues built from your words, plus a mystery word"},
+             {id:"groupings",name:"Groupings",rung:2,time:"2–3 min",what:"Your words mixed with trivia, in groups of four"}];
+/* Daily lineup: The Case every day, plus two games that rotate. The game left out is offered as an extra. */
+const SCHEDULE={1:["case","codewords","crossword"],2:["case","groupings","crossword"],3:["case","codewords","groupings"],4:["case","crossword","codewords"],5:["case","groupings","codewords"],6:["case","crossword","groupings"],7:["case","codewords","groupings"]};
+const gameById=id=>GAMES.find(g=>g.id===id);
+function lineup(d){return(SCHEDULE[d]||SCHEDULE[1]).map(gameById)}
+function extras(d){const s=SCHEDULE[d]||SCHEDULE[1];return GAMES.filter(g=>!s.includes(g.id))}
 
 function dayTargets(day){
-  const set=new Set([CASES[day-1].word]);
-  BOARDS[day-1].rounds.forEach(rd=>[...rd.a,rd.t].forEach(w=>{if(WORDS[w])set.add(w)}));
-  CROSS[day-1].forEach(w=>set.add(w));
+  const set=new Set([CASES[day-1].word]),s=SCHEDULE[day]||[];
+  if(s.includes("codewords"))BOARDS[day-1].rounds.forEach(rd=>[...rd.a,rd.t].forEach(w=>{if(WORDS[w])set.add(w)}));
+  if(s.includes("crossword"))CROSS[day-1].forEach(w=>set.add(w));
+  if(s.includes("groupings"))GROUPINGS[day].groups.forEach(x=>x.words.forEach(w=>{if(WORDS[w])set.add(w)}));
   return[...set];
 }
 
 /* ============ SCREENS ============ */
 function renderHome(){
   const d=V.day,t=today(),R=res(d),isToday=d===t;
-  const doneCount=GAMES.filter(g=>R[g.id]).length;
+  const L=lineup(d),doneCount=L.filter(g=>R[g.id]).length;
   let h=topbar(false);
   if(!isToday)h+=`<div class="viewing"><span>Replaying Day ${d}, ${fmtDate(dayDate(d),{month:"long",day:"numeric"})}</span><button class="link" data-a="day" data-d="${t}">Back to today</button></div>`;
-  h+=`<p class="muted small">${isToday?"Today, "+fmtDate(dayDate(d)):"Day "+d+" of 7"}</p><h1>${doneCount===3?"Climb complete":isToday?"Today's climb":"Day "+d+" climb"}</h1>
+  h+=`<p class="muted small">${isToday?"Today, "+fmtDate(dayDate(d)):"Day "+d+" of 7"}</p><h1>${doneCount===L.length?"Climb complete":isToday?"Today's climb":"Day "+d+" climb"}</h1>
   <p class="muted" style="margin-top:6px">About 5 minutes. ${dayTargets(d).length} words are ready to climb.</p>`;
   h+=`<ol class="session" style="margin-top:18px">`;
-  GAMES.forEach((g,i)=>{const r=R[g.id];
+  L.forEach((g,i)=>{const r=R[g.id];
     h+=`<li class="${r?"done":""}"><span class="num">${r?"✓":i+1}</span><div class="info"><b>${g.name}</b><span>${r?esc(r.summary):g.what+" · "+g.time}</span></div><button data-a="play" data-g="${g.id}">${r?"Replay":"Play"}</button></li>`});
   h+=`</ol>`;
-  if(GROUPINGS[d]){const gr=R.groupings;
-    h+=`<div class="bonus"><div class="info"><small>Bonus${GROUPINGS[d].title==="Weekly finale"?" · Weekly finale":""}</small><b>Groupings</b><span>${gr?esc(gr.summary):"Your words mixed with trivia · 2–3 min"}</span></div><button data-a="play" data-g="groupings">${gr?"Replay":"Play"}</button></div>`}
-  if(doneCount<3)h+=`<button class="btn" data-a="start">${doneCount?(isToday?"Continue today's session":"Continue this day"):(isToday?"Start today's session":"Start this day")}</button>`;
+  const X=extras(d);
+  if(X.length)h+=`<p class="xlabel">Extra game · ${X.length===1?"not in today's lineup":"not in today's lineup"}</p>`+X.map(g=>{const r=R[g.id];return`<div class="bonus"><div class="info"><small>Extra</small><b>${g.name}</b><span>${r?esc(r.summary):g.what+" · "+g.time}</span></div><button data-a="play" data-g="${g.id}">${r?"Replay":"Play"}</button></div>`}).join("");
+  if(doneCount<L.length)h+=`<button class="btn" data-a="start">${doneCount?(isToday?"Continue today's session":"Continue this day"):(isToday?"Start today's session":"Start this day")}</button>`;
   else{
     h+=`<div class="stack"><button class="btn" data-a="recap">${isToday?"See today's climb":"See Day "+d+" climb"}</button><button class="btn ghost" data-a="calendar">Open calendar</button></div>`;
     if(isToday)h+=`<p class="note">${t<7||DEV?"New puzzles unlock tomorrow.":rawDay()>7?"That's all 7 days of the demo. Thanks for playing! You can replay any day from the calendar.":"This is the last day of the demo."}</p>`;
@@ -653,7 +661,7 @@ function renderCalendar(){
     const st=open?dayStatus(n):"none";
     const cls=["cd",!open?"out":"",open?"open":"",st==="done"?"done":"",n===t?"today":""].filter(Boolean).join(" ");
     const r=S.results[n]||{};
-    const dots=open?`<span class="dots">${GAMES.map(g=>`<i class="${r[g.id]?"on":""}"></i>`).join("")}</span>`:"";
+    const dots=open?`<span class="dots">${lineup(n).map(g=>`<i class="${r[g.id]?"on":""}"></i>`).join("")}</span>`:"";
     const label=fmtDate(date)+(open?(st==="done"?", all games done":st==="partial"?", some games done":n===t?", today":", not played"):inDemo?", not unlocked yet":"");
     h+=open?`<button class="${cls}" data-a="day" data-d="${n}" aria-label="${label}">${dn}${dots}</button>`
            :`<button class="${cls}" disabled aria-label="${label}">${dn}</button>`;
@@ -987,7 +995,7 @@ function renderGroupings(){
     g.shake=false;
   }else{
     h+=`<p class="verdict" style="margin-top:12px">${g.won?(g.mistakes?"Solved":"Perfect"):"Nice try"}</p>`;
-    h+=`<div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div><button class="btn" data-a="home">Back to today</button></div>`;
+    h+=`<div class="stack"><button class="btn ghost" data-a="share">Copy result to share</button><div id="shareMsg" class="toast"></div>${nextButton("groupings")}</div>`;
   }
   return h;
 }
@@ -996,8 +1004,9 @@ function grShare(){return`Rung · Groupings, Day ${V.day}\n`+V.g.guesses.map(r=>
 /* --- Flow --- */
 function nextButton(game){
   if(!V.flow)return`<button class="btn" data-a="home">Back to today</button>`;
-  const i=GAMES.findIndex(g=>g.id===game);
-  const nx=GAMES.slice(i+1).find(g=>!res(V.day)[g.id]);
+  const L=lineup(V.day),i=L.findIndex(g=>g.id===game);
+  if(i<0)return`<button class="btn" data-a="home">Back to today</button>`;
+  const nx=L.slice(i+1).find(g=>!res(V.day)[g.id]);
   return nx?`<button class="btn" data-a="play" data-g="${nx.id}" data-flow="1">Next: ${nx.name}</button>`:`<button class="btn" data-a="recap">See today's climb</button>`;
 }
 function renderRecap(){
@@ -1010,10 +1019,10 @@ function renderRecap(){
     Object.values(latest).forEach(m=>{
       const kind=m.to>m.from?"up":m.to<m.from?"down":"held";
       const txt=kind==="up"?`↑ ${RUNGS[m.to]}`:kind==="down"?`↓ ${RUNGS[m.to]}`:`Holding at ${RUNGS[m.to]}`;
-      h+=`<li><span class="mw">${m.word}</span><span class="muted small">${(GAMES.find(g=>g.id===m.game)||{name:"Groupings"}).name}</span><span class="${kind}">${txt}</span></li>`});
+      h+=`<li><span class="mw">${m.word}</span><span class="muted small">${(gameById(m.game)||{name:"Game"}).name}</span><span class="${kind}">${txt}</span></li>`});
     h+=`</ul>`;
   }
-  h+=`<div class="stack" style="margin-top:14px">${GROUPINGS[V.day]&&!res(V.day).groupings?`<button class="btn" data-a="play" data-g="groupings">Bonus: play Groupings</button>`:""}<button class="btn ${GROUPINGS[V.day]&&!res(V.day).groupings?"ghost":""}" data-a="ladder">See your whole ladder</button><button class="btn ghost" data-a="calendar">Open calendar</button><button class="btn ghost" data-a="feedback">Give feedback</button></div>`;
+  h+=`<div class="stack" style="margin-top:14px">${extras(V.day).filter(g=>!res(V.day)[g.id]).map(g=>`<button class="btn" data-a="play" data-g="${g.id}">Want more? Play ${g.name}</button>`).join("")}<button class="btn ${extras(V.day).some(g=>!res(V.day)[g.id])?"ghost":""}" data-a="ladder">See your whole ladder</button><button class="btn ghost" data-a="calendar">Open calendar</button><button class="btn ghost" data-a="feedback">Give feedback</button></div>`;
   return h;
 }
 let openWord=null;
@@ -1029,12 +1038,12 @@ function renderAbout(){
   return topbar(true)+`<h1>How it works</h1><div class="reveal" style="margin-top:14px">
   <p class="body">Rung helps you build a stronger vocabulary with a few minutes of games a day. You don't learn a word by seeing it once, so every word comes back to you in harder and harder ways until it's truly yours.</p>
   <h3>The ladder</h3><p class="body">Each word climbs five rungs: Deduce (work out its meaning), Discriminate (tell it apart from near misses), Recall (produce it yourself), Wield (use it in your own words), and Survive (remember it weeks later). Miss one, and the word slips back a rung to try again.</p>
-  <h3>Your daily session</h3><p class="body">The Case is a mystery word everyone plays each day. Codewords and the Mini Crossword bring back words you've met before, and the crossword ends with a mystery word to unscramble. Together they take about five minutes.</p>
+  <h3>Your daily session</h3><p class="body">The Case is a mystery word everyone plays each day. Two more games join it, and the lineup changes daily: Codewords, the Mini Crossword, and Groupings take turns bringing back words you've met before. Together they take about five minutes, and the game left out is there as an extra if you want more.</p>
   <h3>About this demo</h3><p class="body">This is a 7-day test with 20 words and the first three rungs. All seven days are unlocked so you can play at your own pace, but the real app releases one day at a time. Your progress is saved on this device only.</p></div>
   <button class="btn" data-a="feedback">Give feedback</button>`;
 }
 const FBQ=[{k:"feel",q:"Did the games feel more like play or like a test?",opts:["Play","Somewhere between","A test"]},
-           {k:"fav",q:"Which game did you enjoy most?",opts:["The Case","Codewords","Mini Crossword"]},
+           {k:"fav",q:"Which game did you enjoy most?",opts:["The Case","Codewords","Mini Crossword","Groupings"]},
            {k:"daily",q:"Would you open this every day?",opts:["Yes","Maybe","Probably not"]},
            {k:"confusing",q:"Was anything confusing or frustrating?",text:true},
            {k:"remember",q:"Without looking, which words do you remember? What do they mean?",text:true},
@@ -1076,7 +1085,7 @@ function render(){
 function go(screen){V.screen=screen;render();window.scrollTo(0,0)}
 function play(id,flow){
   V.flow=!!flow;
-  if(id==="case")startCase();else if(id==="codewords")startCodewords();else if(id==="groupings"){V.flow=false;startGroupings()}else startCrossword();
+  if(id==="case")startCase();else if(id==="codewords")startCodewords();else if(id==="groupings")startGroupings();else startCrossword();
   go(id);
 }
 async function copy(text,target,okMsg){
@@ -1102,7 +1111,7 @@ document.addEventListener("click",e=>{
     case"day":{const n=+b.dataset.d;if(n>=1&&n<=unlocked()){V.day=n;go("home")}break}
     case"calendar":calMonth=null;go("calendar");break;
     case"calprev":case"calnext":calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+(a==="calnext"?1:-1),1);render();break;
-    case"start":{const nx=GAMES.find(g=>!res(V.day)[g.id]);play(nx?nx.id:"case",true);break}
+    case"start":{const nx=lineup(V.day).find(g=>!res(V.day)[g.id]);play(nx?nx.id:"case",true);break}
     case"play":play(b.dataset.g,b.dataset.flow==="1"||V.flow&&V.screen!=="home");break;
     case"reset":
       if(!resetArmed){resetArmed=true;b.textContent="Tap again to erase progress";break}
